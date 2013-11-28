@@ -92,42 +92,42 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT</IncludePath>
-    <LibraryPath>$(LibraryPath);;$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_D32</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_D64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT</IncludePath>
-    <LibraryPath>$(LibraryPath);;$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_R32</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT;;$(GPA_INCLUDE_DIR)</IncludePath>
-    <LibraryPath>$(LibraryPath);;$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib;$(GPA_LIBRARY_DIR)\x86</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_P32</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_R64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT;;$(GPA_INCLUDE_DIR)</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib;$(GPA_LIBRARY_DIR)\x64</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_P64</TargetName>
   </PropertyGroup>
@@ -146,7 +146,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>CPUT-DX11_32D.lib;d3d11.lib;d3dcompiler.lib;d3dx11d.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;TBBGraphicsSamples.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CPUT-DX11_32D.lib;d3d11.lib;d3dcompiler.lib;d3dx11d.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;SampleComponents.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\SampleComponents\Middleware\TBB\lib\x86\$(ConfigurationName)</AdditionalLibraryDirectories>
     </Link>
@@ -166,7 +166,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;d3dx11d.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;CPUT-DX11_64D.lib;TBBGraphicsSamples.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;d3dx11d.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;CPUT-DX11_64D.lib;SampleComponents.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\SampleComponents\Middleware\TBB\lib\x64\$(ConfigurationName)</AdditionalLibraryDirectories>
     </Link>
@@ -229,7 +229,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9.lib;dxerr.lib;dxguid.lib;CPUT-DX11_64R.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;TBBGraphicsSamples.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9.lib;dxerr.lib;dxguid.lib;CPUT-DX11_64R.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;SampleComponents.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\SampleComponents\Middleware\TBB\lib\x64\$(ConfigurationName)</AdditionalLibraryDirectories>
     </Link>
@@ -333,11 +333,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SoftwareOcclusionCullingDX_2010.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SampleComponents\SampleComponents_2010.vcxproj">
-      <Project>{fe51a30b-2aaf-4a6e-8ae0-05e9361bc00e}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

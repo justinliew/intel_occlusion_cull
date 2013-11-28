@@ -246,7 +246,7 @@ void MySample::Create()
     // load shadow casting material+sprite object
     cString ExecutableDirectory;
     CPUTOSServices::GetOSServices()->GetExecutableDirectory(&ExecutableDirectory);
-    pAssetLibrary->SetMediaDirectoryName(  ExecutableDirectory+_L("..\\..\\Media\\"));
+    pAssetLibrary->SetMediaDirectoryName(  ExecutableDirectory+_L("Media\\"));
 
     mpShadowRenderTarget = new CPUTRenderTargetDepth();
     mpShadowRenderTarget->CreateRenderTarget( cString(_L("$shadow_depth")), SHADOW_WIDTH_HEIGHT, SHADOW_WIDTH_HEIGHT, DXGI_FORMAT_D32_FLOAT );
@@ -298,7 +298,7 @@ void MySample::Create()
     //
     // Load .set files to load the castle scene
 	//
-    pAssetLibrary->SetMediaDirectoryName(_L("..\\..\\Media\\Castle\\"));
+    pAssetLibrary->SetMediaDirectoryName(_L("Media\\Castle\\"));
 
 #ifdef DEBUG
     mpAssetSetDBR[0] = pAssetLibrary->GetAssetSet(_L("castleLargeOccluders"));

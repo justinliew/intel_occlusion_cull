@@ -75,7 +75,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     // resources    
     cString ResourceDirectory;
     CPUTOSServices::GetOSServices()->GetExecutableDirectory(&ResourceDirectory);
-    ResourceDirectory.append(_L("..\\..\\CPUT\\resources\\"));
+    ResourceDirectory.append(_L("CPUT\\resources\\"));
     
     // Initialize the system and give it the base CPUT resource directory (location of GUI images/etc)
     // For now, we assume it's a relative directory from the executable directory.  Might make that resource
