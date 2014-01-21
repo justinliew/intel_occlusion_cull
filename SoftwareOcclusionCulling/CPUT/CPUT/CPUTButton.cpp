@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -16,6 +16,8 @@
 #include "CPUTButton.h"
 #ifdef CPUT_FOR_DX11
     #include "CPUTGuiControllerDX11.h"
+#elif defined(CPUT_FOR_OGLES)
+    #include "CPUTGuiControllerOGLES.h"
 #else    
 #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
@@ -242,7 +244,13 @@ CPUTEventHandledCode CPUTButton::HandleMouseEvent(int x, int y, int wheel, CPUTM
 
             // tell gui system this control image is now dirty
             // and needs to rebuild it's draw list
-            CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
         }
 
         // did they click inside the button?
@@ -255,7 +263,14 @@ CPUTEventHandledCode CPUTButton::HandleMouseEvent(int x, int y, int wheel, CPUTM
 
             // tell gui system this control image is now dirty
             // and needs to rebuild it's draw list
-            CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
+                
         }
 
         if(!(state & CPUT_MOUSE_LEFT_DOWN))
@@ -271,7 +286,13 @@ CPUTEventHandledCode CPUTButton::HandleMouseEvent(int x, int y, int wheel, CPUTM
         if(CPUT_BUTTON_NEUTRAL != mButtonState)
         {
             mButtonState = CPUT_BUTTON_NEUTRAL;
+#ifdef CPUT_FOR_DX11
             CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+            CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
         }
         mbMouseInside = false;
         mButtonState = CPUT_BUTTON_NEUTRAL;
@@ -349,12 +370,24 @@ void CPUTButton::SetText(const cString String)
     // if it is managed by the auto-arrange function
     if(this->IsAutoArranged())
     {
-        CPUTGuiControllerDX11::GetController()->Resize();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->Resize();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->Resize();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
     }
     else
     {
         // otherwise, we mark this as dirty
-        CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
     }
 }
 
@@ -403,7 +436,13 @@ void CPUTButton::SetEnable(bool in_bEnabled)
     mpButtonText->SetEnable(in_bEnabled);
 
     // otherwise, we mark this as dirty
+#ifdef CPUT_FOR_DX11
     CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
 }
 
 // Set the upper-left screen coordinate location of this control
@@ -758,7 +797,14 @@ CPUTResult CPUTButton::Resize(int width, int height)
                 
         // Mark this control as 'dirty' for drawing and inform the gui system that
         // it needs to re-calculate it's drawing buffer
-        CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
+        
     }
 
     return CPUT_SUCCESS;

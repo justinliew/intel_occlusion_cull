@@ -1,0 +1,54 @@
+﻿Build started 12/11/2013 9:40:11 AM.
+     1>Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\\..\SampleComponentsDLL /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D CPUT_GPA_INSTRUMENTATION /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Profile\\" /Fd"x64\Profile\vc100.pdb" /Gd /TP /errorReport:prompt AABBoxRasterizer.cpp AABBoxRasterizerScalar.cpp AABBoxRasterizerScalarMT.cpp AABBoxRasterizerScalarST.cpp AABBoxRasterizerSSE.cpp AABBoxRasterizerSSEMT.cpp AABBoxRasterizerSSEST.cpp DepthBufferRasterizer.cpp DepthBufferRasterizerScalar.cpp DepthBufferRasterizerScalarMT.cpp DepthBufferRasterizerScalarST.cpp DepthBufferRasterizerSSE.cpp DepthBufferRasterizerSSEMT.cpp DepthBufferRasterizerSSEST.cpp main.cpp SoftwareOcclusionCulling.cpp TransformedAABBoxScalar.cpp TransformedAABBoxSSE.cpp TransformedMeshScalar.cpp TransformedMeshSSE.cpp TransformedModelScalar.cpp TransformedModelSSE.cpp
+         AABBoxRasterizer.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         AABBoxRasterizerScalar.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         AABBoxRasterizerScalarMT.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         AABBoxRasterizerScalarST.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         AABBoxRasterizerSSE.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         AABBoxRasterizerSSEMT.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         AABBoxRasterizerSSEST.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         DepthBufferRasterizer.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         DepthBufferRasterizerScalar.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         DepthBufferRasterizerScalarMT.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         DepthBufferRasterizerScalarST.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         DepthBufferRasterizerSSE.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         DepthBufferRasterizerSSEMT.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         DepthBufferRasterizerSSEST.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         main.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         SoftwareOcclusionCulling.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TransformedAABBoxScalar.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TransformedAABBoxSSE.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TransformedMeshScalar.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TransformedMeshSSE.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         Compiling...
+         TransformedModelScalar.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TransformedModelSSE.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\softwareocclusionculling\cput\cput\CPUT.h(37): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+     1>Done Building Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:14.16

@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -17,6 +17,8 @@
 #include "CPUTTexture.h"
 #ifdef CPUT_FOR_DX11
 #include "CPUTTextureDX11.h"
+#elif defined(CPUT_FOR_OGLES)
+#include "CPUTTextureOGLES.h"
 #else    
 #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
@@ -28,7 +30,9 @@ CPUTTexture *CPUTTexture::CreateTexture( const cString &name, const cString abso
     // TODO: be sure to support the case where we want to support only one of them
 #ifdef CPUT_FOR_DX11
     return CPUTTextureDX11::CreateTexture( name, absolutePathAndFilename, loadAsSRGB );
-#else
+#elif defined(CPUT_FOR_OGLES)
+    return CPUTTextureOGLES::CreateTexture( name, absolutePathAndFilename, loadAsSRGB );
+#else    
     #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
     

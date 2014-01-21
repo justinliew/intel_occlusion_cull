@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -26,25 +26,40 @@
 class TransformedAABBoxSSE : public HelperSSE
 {
 	public:
+		TransformedAABBoxSSE();
+		~TransformedAABBoxSSE();
 		void CreateAABBVertexIndexList(CPUTModelDX11 *pModel);
-		bool IsInsideViewFrustum(CPUTCamera *pCamera);
-		bool TransformAABBox(__m128 xformedPos[], const __m128 cumulativeMatrix[4]);
-		bool RasterizeAndDepthTestAABBox(UINT *pRenderTargetPixels, const __m128 pXformedPos[], UINT idx);
+		void IsInsideViewFrustum(CPUTCamera *pCamera);
+		void TransformAABBoxAndDepthTest();
 
-		bool IsTooSmall(const BoxTestSetupSSE &setup, __m128 cumulativeMatrix[4]);
-		
+		bool IsTooSmall(__m128 *pViewMatrix, __m128 *pProjMatrix, CPUTCamera *pCamera);
+
+		void TransformAABBox();
+
+		void RasterizeAndDepthTestAABBox(UINT *pRenderTargetPixels);
+
+		inline void SetInsideViewFrustum(bool insideVF){mInsideViewFrustum = insideVF;}
+		inline bool IsInsideViewFrustum(){ return mInsideViewFrustum;}
+		inline void SetVisible(bool *visible){mVisible = visible;}
+		inline void SetOccludeeSizeThreshold(float occludeeSizeThreshold){mOccludeeSizeThreshold = occludeeSizeThreshold;}
+
 	private:
 		CPUTModelDX11 *mpCPUTModel;
-		float4x4 mWorldMatrix;
-		
+		__m128 *mWorldMatrix;
+		__m128 *mpBBVertexList;
+		__m128 *mpXformedPos;
+		__m128 *mCumulativeMatrix; 
+		UINT	mBBIndexList[AABB_INDICES];
+		bool   *mVisible;
+		bool    mInsideViewFrustum;
+		float   mOccludeeSizeThreshold;
+		bool    mTooSmall;
+		__m128 *mViewPortMatrix; 
+
 		float3 mBBCenter;
 		float3 mBBHalf;
-		float  mRadiusSq;
-		
-		float3 mBBCenterWS;
-		float3 mBBHalfWS;
 
-		void Gather(vFloat4 pOut[3], UINT triId, const __m128 xformedPos[], UINT idx);
+		void Gather(vFloat4 pOut[3], UINT triId);
 };
 
 

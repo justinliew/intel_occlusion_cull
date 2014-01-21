@@ -1,0 +1,19 @@
+﻿Build started 11/29/2013 4:34:15 PM.
+     1>Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\SampleComponents_2010.vcxproj" on node 3 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I.\middleware\tbb\include\tbb /IC:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Profile\ /Zi /nologo /W3 /WX- /O2 /Oi /GL /D VS2010 /D WIN32 /D NDEBUG /D _LIB /D PROFILEGPA /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Profile\\" /Fd"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Profile\vc100.pdb" /Gd /TP /errorReport:prompt DynamicTaskMgrBase.cpp TaskMgrCRT.cpp TaskMgrSS.cpp TaskMgrTBB.cpp TaskScheduler.cpp
+         DynamicTaskMgrBase.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\samplecomponentsdll\Profile.h(9): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TaskMgrCRT.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\samplecomponentsdll\Profile.h(9): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TaskMgrSS.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\samplecomponentsdll\Profile.h(9): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TaskMgrTBB.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\samplecomponentsdll\Profile.h(9): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+         TaskScheduler.cpp
+     1>c:\users\juliew\documents\github\intel_occlusion_cull\samplecomponentsdll\Profile.h(9): fatal error C1083: Cannot open include file: 'ittnotify.h': No such file or directory
+     1>Done Building Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\SampleComponents_2010.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:02.68

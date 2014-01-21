@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -18,8 +18,10 @@
 
 #ifdef CPUT_FOR_DX11
 #include "CPUTMaterialDX11.h"
+#elif defined(CPUT_FOR_OGLES)
+#include "CPUTMaterialOGLES.h"
 #else    
-    #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
 
 
@@ -28,20 +30,16 @@ CPUTMaterial *CPUTMaterial::CreateMaterial( const cString &absolutePathAndFilena
     // material was not in the library, so load it
 #ifdef CPUT_FOR_DX11
     CPUTMaterial *pMaterial = new CPUTMaterialDX11();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTMaterial *pMaterial = new CPUTMaterialOGLES();
 #else    
-    #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
     CPUTResult result = pMaterial->LoadMaterial(absolutePathAndFilename, pModel, meshIndex);
     ASSERT( CPUTSUCCESS(result), _L("\nError - CPUTAssetLibrary::GetMaterial() - Error in material file: '")+absolutePathAndFilename+_L("'") );
 
     // add material to material library list
-    if( pModel && pMaterial->MaterialRequiresPerModelPayload() )
-    {
-        CPUTAssetLibrary::GetAssetLibrary()->AddMaterial( absolutePathAndFilename, pMaterial, pModel, meshIndex );
-    } else
-    {
-        CPUTAssetLibrary::GetAssetLibrary()->AddMaterial( absolutePathAndFilename, pMaterial );
-    }
+    CPUTAssetLibrary::GetAssetLibrary()->AddMaterial( absolutePathAndFilename, pMaterial, pModel, meshIndex );
 
     return pMaterial;
 }

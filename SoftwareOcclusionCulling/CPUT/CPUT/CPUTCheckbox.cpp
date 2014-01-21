@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -17,6 +17,8 @@
 #include "CPUTGuiController.h"
 #ifdef CPUT_FOR_DX11
     #include "CPUTGuiControllerDX11.h"
+#elif defined(CPUT_FOR_OGLES)
+    #include "CPUTGuiControllerOGLES.h"
 #else    
 #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
@@ -258,7 +260,13 @@ CPUTEventHandledCode CPUTCheckbox::HandleMouseEvent(int x, int y, int wheel, CPU
             // tell gui system this control image is now dirty
             // and needs to rebuild it's draw list
             
-            CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
         }
 
         // did they click inside the button?
@@ -283,7 +291,13 @@ CPUTEventHandledCode CPUTCheckbox::HandleMouseEvent(int x, int y, int wheel, CPU
 
             // tell gui system this control image is now dirty
             // and needs to rebuild it's draw list            
-            CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
         }
         if(!(state & CPUT_MOUSE_LEFT_DOWN))
         {
@@ -359,11 +373,23 @@ void CPUTCheckbox::SetText(const cString String)
     // if it is managed by the auto-arrange function
     if(this->IsAutoArranged())
     {
-        CPUTGuiControllerDX11::GetController()->Resize();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->Resize();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->Resize();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
     }
     else
     {
-        CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
     }
 }
 
@@ -520,7 +546,13 @@ void CPUTCheckbox::Recalculate()
 
     // Mark this control as 'dirty' for drawing and inform the gui system that
     // it needs to re-calculate it's drawing buffer
+#ifdef CPUT_FOR_DX11
     CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
 }
 
 // This generates a quad with the supplied coordinates/uv's/etc.

@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -30,35 +30,35 @@ class AABBoxRasterizerScalar : public AABBoxRasterizer
 		
 		void RenderVisible(CPUTAssetSet **pAssetSet,
 						   CPUTRenderParametersDX &renderParams,
-						   UINT numAssetSets,
-						   UINT idx);
+						   UINT numAssetSets);
 
 		void Render(CPUTAssetSet **pAssetSet,
 					CPUTRenderParametersDX &renderParams,
-					UINT numAssetSets,
-					UINT idx);
+					UINT numAssetSets);
 
 		inline void ResetInsideFrustum()
 		{
 			for(UINT i = 0; i < mNumModels; i++)
 			{
-				mpInsideFrustum[0][i] = true;
-				mpInsideFrustum[1][i] = true;
+				mpTransformedAABBox[i].SetInsideViewFrustum(true);
 			}
 		}
 
-		void SetViewProjMatrix(float4x4 *viewMatrix, float4x4 *projMatrix, UINT idx);
-		inline void SetCPURenderTargetPixels(UINT *pRenderTargetPixels, UINT idx)
-		{
-			mpRenderTargetPixels[idx] = pRenderTargetPixels;
-		}
+		void SetViewProjMatrix(float4x4 *viewMatrix, float4x4 *projMatrix);
+		inline void SetCPURenderTargetPixels(UINT *pRenderTargetPixels){mpRenderTargetPixels = pRenderTargetPixels;}
 		inline void SetDepthTestTasks(UINT numTasks){mNumDepthTestTasks = numTasks;}
-		inline void SetOccludeeSizeThreshold(float occludeeSizeThreshold){mOccludeeSizeThreshold = occludeeSizeThreshold;}
-		inline void SetCamera(CPUTCamera *pCamera, UINT idx) {mpCamera[idx] = pCamera;}	
-		inline void SetEnableFCulling(bool enableFCulling) {mEnableFCulling = enableFCulling;}
+		inline void SetOccludeeSizeThreshold(float occludeeSizeThreshold)
+		{
+			for(UINT i = 0; i < mNumModels; i++)
+			{
+				mpTransformedAABBox[i].SetOccludeeSizeThreshold(occludeeSizeThreshold);
+			}
+		}
+		inline void SetCamera(CPUTCamera *pCamera) {mpCamera = pCamera;}	
+
 
 		inline UINT GetNumOccludees() {return mNumModels;}
-		inline UINT GetNumCulled(UINT idx) {return mNumCulled[idx];}
+		inline UINT GetNumCulled() {return mNumCulled;}
 		inline double GetDepthTestTime()
 		{
 			double averageTime = 0.0;
@@ -79,46 +79,32 @@ class AABBoxRasterizerScalar : public AABBoxRasterizer
 			return numTris;
 		}
 
-		inline UINT GetNumCulledTriangles(UINT idx)
+		inline UINT GetNumCulledTriangles()
 		{
 			UINT numCulledTris = 0;
 			for(UINT i = 0; i < mNumModels; i++)
 			{
-				numCulledTris += mpVisible[idx][i] ? 0 : mpNumTriangles[i];
+				numCulledTris += mpVisible[i] ? 0 : mpNumTriangles[i];
 			}
 			return numCulledTris;
-		}
-		
-		inline UINT GetNumTrisRendered()
-		{
-			return mNumTrisRendered;
-		}
-
-		inline UINT GetNumFCullCount()
-		{
-			return mNumFCullCount;
 		}
 
 	protected:
 		UINT mNumModels;
 		TransformedAABBoxScalar *mpTransformedAABBox;
-		CPUTModelDX11 **mpModels;
-		bool *mpInsideFrustum[2];
 		UINT *mpNumTriangles;
-		float4x4 mViewMatrix[2];
-		float4x4 mProjMatrix[2];
-		UINT *mpRenderTargetPixels[2];
-		CPUTCamera *mpCamera[2];
-		bool *mpVisible[2];
-		UINT mNumCulled[2];
-		UINT mNumTrisRendered;
-		UINT mNumFCullCount;
+		float4x4 *mViewMatrix;
+		float4x4 *mProjMatrix;
+		UINT *mpRenderTargetPixels;
+		CPUTCamera *mpCamera;
+		bool *mpVisible;
+		UINT  mNumCulled;
 		UINT mNumDepthTestTasks;
 		float mOccludeeSizeThreshold;
 		UINT mTimeCounter;
 
-		bool   mEnableFCulling;
 		double mDepthTestTime[AVG_COUNTER];
+		CPUTTimerWin mDepthTestTimer;
 };
 
 

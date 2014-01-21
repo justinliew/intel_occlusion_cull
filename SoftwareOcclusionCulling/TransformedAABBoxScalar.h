@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -26,25 +26,38 @@
 class TransformedAABBoxScalar : public HelperScalar
 {
 	public:
+		TransformedAABBoxScalar();
+		~TransformedAABBoxScalar();
 		void CreateAABBVertexIndexList(CPUTModelDX11 *pModel);
-		bool IsInsideViewFrustum(CPUTCamera *pcamera);
-		bool TransformAABBox(float4 xformedPos[], const float4x4 &cumulativeMatrix);
-		bool RasterizeAndDepthTestAABBox(UINT *pRenderTargetPixels, const float4 pXformedPos[], UINT idx);
+		void IsInsideViewFrustum(CPUTCamera *pcamera);
+		void TransformAABBox();
+		void RasterizeAndDepthTestAABBox(UINT *mpRenderTargetPixels);
 
-		bool IsTooSmall(const BoxTestSetupScalar &setup, float4x4 &cumulativeMatrix);
-		
+		bool IsTooSmall(float4x4 *pViewMatrix, float4x4 *pProjMatrix, CPUTCamera *pCamera);
+
+		inline void SetInsideViewFrustum(bool insideVF){mInsideViewFrustum = insideVF;}
+		inline bool IsInsideViewFrustum(){ return mInsideViewFrustum;}
+		inline void SetVisible(bool *visible){mVisible = visible;}
+		inline void SetOccludeeSizeThreshold(float occludeeSizeThreshold){mOccludeeSizeThreshold = occludeeSizeThreshold;}
+
 	private:
 		CPUTModelDX11 *mpCPUTModel;
 		float4x4 mWorldMatrix;
-			
 		float3  mBBCenter;
 		float3  mBBHalf;
-		float   mRadiusSq;
+		float4x4 mCumulativeMatrix;
 
-		float3  mBBCenterWS;
-		float3  mBBHalfWS;
 
-		void Gather(float4 pOut[3], UINT triId, const float4 xformedPos[]);
+		float4  mBBVertexList[AABB_VERTICES];
+		float4  mXformedPos[AABB_VERTICES];
+
+		UINT	mBBIndexList[AABB_INDICES];
+		bool   *mVisible;
+		bool	mInsideViewFrustum;
+		float	mOccludeeSizeThreshold;
+		bool    mTooSmall;
+
+		void Gather(float4 pOut[3], UINT triId);
 };
 
 

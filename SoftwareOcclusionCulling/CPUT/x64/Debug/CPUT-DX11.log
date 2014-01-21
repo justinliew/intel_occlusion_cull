@@ -1,0 +1,110 @@
+﻿Build started 11/29/2013 12:53:58 PM.
+     1>Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\CPUT\CPUT-DX11.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /MP /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /openmp- /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /errorReport:prompt CPUT\CPUTAssetLibrary.cpp CPUT\CPUTAssetLibraryDX11.cpp CPUT\CPUTAssetSet.cpp CPUT\CPUTAssetSetDX11.cpp CPUT\CPUTBuffer.cpp CPUT\CPUTBufferDX11.cpp CPUT\CPUTButton.cpp CPUT\CPUTCheckbox.cpp CPUT\CPUTComputeShaderDX11.cpp CPUT\CPUTControl.cpp CPUT\CPUTDomainShaderDX11.cpp CPUT\CPUTDropdown.cpp CPUT\CPUTFont.cpp CPUT\CPUTFontDX11.cpp CPUT\CPUTFrustum.cpp CPUT\CPUTGeometryShaderDX11.cpp CPUT\CPUTGuiController.cpp CPUT\CPUTGuiControllerDX11.cpp CPUT\CPUTHullShaderDX11.cpp CPUT\CPUTITTTaskMarker.cpp CPUT\CPUTMaterial.cpp CPUT\CPUTMaterialDX11.cpp CPUT\CPUTMeshDX11.cpp CPUT\CPUTModel.cpp CPUT\CPUTModelDX11.cpp CPUT\CPUTNullNode.cpp CPUT\CPUTConfigBlock.cpp CPUT\CPUTPerfTaskMarker.cpp CPUT\CPUTPixelShaderDX11.cpp CPUT\CPUTPostProcess.cpp CPUT\CPUTRenderNode.cpp CPUT\CPUTRenderStateBlock.cpp CPUT\CPUTRenderStateBlockDX11.cpp CPUT\CPUTOSServicesWin.cpp CPUT\CPUTCamera.cpp CPUT\CPUTLight.cpp CPUT\CPUTRenderTarget.cpp CPUT\CPUTShaderDX11.cpp CPUT\CPUTSlider.cpp CPUT\CPUTSprite.cpp CPUT\CPUTText.cpp CPUT\CPUTTexture.cpp CPUT\CPUTTextureDX11.cpp CPUT\CPUTTimerWin.cpp CPUT\CPUTInputLayoutCacheDX11.cpp CPUT\CPUTMesh.cpp CPUT\CPUTVertexShaderDX11.cpp CPUT\CPUT_DX11.cpp CPUT\CPUTWindowWin.cpp
+         CPUTAssetLibrary.cpp
+         CPUTAssetLibraryDX11.cpp
+         CPUTAssetSet.cpp
+         CPUTAssetSetDX11.cpp
+         CPUTBuffer.cpp
+         CPUTBufferDX11.cpp
+         CPUTButton.cpp
+         CPUTCheckbox.cpp
+         CPUTComputeShaderDX11.cpp
+         CPUTControl.cpp
+         CPUTDomainShaderDX11.cpp
+         CPUTDropdown.cpp
+         CPUTFont.cpp
+         CPUTFontDX11.cpp
+         CPUTFrustum.cpp
+         CPUTGeometryShaderDX11.cpp
+         CPUTGuiController.cpp
+         CPUTGuiControllerDX11.cpp
+         CPUTHullShaderDX11.cpp
+         CPUTITTTaskMarker.cpp
+         CPUTMaterial.cpp
+         CPUTMaterialDX11.cpp
+         CPUTMeshDX11.cpp
+         CPUTModel.cpp
+         CPUTModelDX11.cpp
+         CPUTNullNode.cpp
+         CPUTConfigBlock.cpp
+         CPUTPerfTaskMarker.cpp
+         CPUTPixelShaderDX11.cpp
+         CPUTPostProcess.cpp
+         CPUTRenderNode.cpp
+         CPUTRenderStateBlock.cpp
+         CPUTRenderStateBlockDX11.cpp
+         CPUTOSServicesWin.cpp
+         CPUTCamera.cpp
+         CPUTLight.cpp
+         CPUTRenderTarget.cpp
+         CPUTShaderDX11.cpp
+         CPUTSlider.cpp
+         CPUTSprite.cpp
+         CPUTText.cpp
+         CPUTTexture.cpp
+         CPUTTextureDX11.cpp
+         CPUTTimerWin.cpp
+         CPUTInputLayoutCacheDX11.cpp
+         CPUTMesh.cpp
+         CPUTVertexShaderDX11.cpp
+         CPUT_DX11.cpp
+         CPUTWindowWin.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\\lib\CPUT-DX11_64D.lib" /NOLOGO x64\Debug\CPUTAssetLibrary.obj
+         x64\Debug\CPUTAssetLibraryDX11.obj
+         x64\Debug\CPUTAssetSet.obj
+         x64\Debug\CPUTAssetSetDX11.obj
+         x64\Debug\CPUTBuffer.obj
+         x64\Debug\CPUTBufferDX11.obj
+         x64\Debug\CPUTButton.obj
+         x64\Debug\CPUTCheckbox.obj
+         x64\Debug\CPUTComputeShaderDX11.obj
+         x64\Debug\CPUTControl.obj
+         x64\Debug\CPUTDomainShaderDX11.obj
+         x64\Debug\CPUTDropdown.obj
+         x64\Debug\CPUTFont.obj
+         x64\Debug\CPUTFontDX11.obj
+         x64\Debug\CPUTFrustum.obj
+         x64\Debug\CPUTGeometryShaderDX11.obj
+         x64\Debug\CPUTGuiController.obj
+         x64\Debug\CPUTGuiControllerDX11.obj
+         x64\Debug\CPUTHullShaderDX11.obj
+         x64\Debug\CPUTITTTaskMarker.obj
+         x64\Debug\CPUTMaterial.obj
+         x64\Debug\CPUTMaterialDX11.obj
+         x64\Debug\CPUTMeshDX11.obj
+         x64\Debug\CPUTModel.obj
+         x64\Debug\CPUTModelDX11.obj
+         x64\Debug\CPUTNullNode.obj
+         x64\Debug\CPUTConfigBlock.obj
+         x64\Debug\CPUTPerfTaskMarker.obj
+         x64\Debug\CPUTPixelShaderDX11.obj
+         x64\Debug\CPUTPostProcess.obj
+         x64\Debug\CPUTRenderNode.obj
+         x64\Debug\CPUTRenderStateBlock.obj
+         x64\Debug\CPUTRenderStateBlockDX11.obj
+         x64\Debug\CPUTOSServicesWin.obj
+         x64\Debug\CPUTCamera.obj
+         x64\Debug\CPUTLight.obj
+         x64\Debug\CPUTRenderTarget.obj
+         x64\Debug\CPUTShaderDX11.obj
+         x64\Debug\CPUTSlider.obj
+         x64\Debug\CPUTSprite.obj
+         x64\Debug\CPUTText.obj
+         x64\Debug\CPUTTexture.obj
+         x64\Debug\CPUTTextureDX11.obj
+         x64\Debug\CPUTTimerWin.obj
+         x64\Debug\CPUTInputLayoutCacheDX11.obj
+         x64\Debug\CPUTMesh.obj
+         x64\Debug\CPUTVertexShaderDX11.obj
+         x64\Debug\CPUT_DX11.obj
+         x64\Debug\CPUTWindowWin.obj
+     1>CPUTBuffer.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         CPUT-DX11.vcxproj -> C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\\lib\CPUT-DX11_64D.lib
+     1>Done Building Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\CPUT\CPUT-DX11.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.75

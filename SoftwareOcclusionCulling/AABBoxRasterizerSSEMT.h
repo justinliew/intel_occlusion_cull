@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -26,20 +26,15 @@ class AABBoxRasterizerSSEMT : public AABBoxRasterizerSSE
 		AABBoxRasterizerSSEMT();
 		~AABBoxRasterizerSSEMT();
 
-		struct PerTaskData
-		{
-			UINT idx;
-			AABBoxRasterizerSSEMT *pAABB; 
-		};
-
-		PerTaskData mTaskData[2];
-		void TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UINT idx);
-		void WaitForTaskToFinish(UINT idx);
-		void ReleaseTaskHandles(UINT idx);
+		void IsInsideViewFrustum(CPUTCamera *pCamera);
+		void TransformAABBoxAndDepthTest();
 
 	private:
+		static void IsInsideViewFrustum(VOID* taskData, INT context, UINT taskId, UINT taskCount);
+		void IsInsideViewFrustum(UINT taskId, UINT taskCount);
+
 		static void TransformAABBoxAndDepthTest(VOID* pTaskData, INT context, UINT taskId, UINT taskCount);
-		void TransformAABBoxAndDepthTest(UINT taskId, UINT taskCount, UINT idx);
+		void TransformAABBoxAndDepthTest(UINT taskId);
 };
 
 #endif //AABBOXRASTERIZERSSEMT_H

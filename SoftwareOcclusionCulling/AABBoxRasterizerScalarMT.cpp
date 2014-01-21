@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -20,6 +20,7 @@
 AABBoxRasterizerScalarMT::AABBoxRasterizerScalarMT()
 	: AABBoxRasterizerScalar()
 {
+
 }
 
 AABBoxRasterizerScalarMT::~AABBoxRasterizerScalarMT()
@@ -27,55 +28,74 @@ AABBoxRasterizerScalarMT::~AABBoxRasterizerScalarMT()
 
 }
 
+//--------------------------------------------------------------------
+// Create mNumDepthTestTasks tasks to determine if the occludee model 
+// AABox is within the viewing frustum 
+//--------------------------------------------------------------------
+void AABBoxRasterizerScalarMT::IsInsideViewFrustum(CPUTCamera *pCamera)
+{
+	mpCamera = pCamera;
+	
+	gTaskMgr.CreateTaskSet(&AABBoxRasterizerScalarMT::IsInsideViewFrustum, this, mNumDepthTestTasks, NULL, 0, "Xform Vertices", &mAABBoxInsideViewFrustum);
+	// Wait for the task set
+	gTaskMgr.WaitForSet(mAABBoxInsideViewFrustum);
+	// Release the task set
+	gTaskMgr.ReleaseHandle(mAABBoxInsideViewFrustum);
+	mAABBoxInsideViewFrustum = TASKSETHANDLE_INVALID;
+}	
+
+void AABBoxRasterizerScalarMT::IsInsideViewFrustum(VOID* taskData, INT context, UINT taskId, UINT taskCount)
+{
+	AABBoxRasterizerScalarMT *pAABB = (AABBoxRasterizerScalarMT*)taskData;
+	pAABB->IsInsideViewFrustum(taskId, taskCount);
+}
+
+//-----------------------------------------------------------------------------
+// * Determine the batch of occludee models each task should work on
+// * For each model in the batch determine is the AABBox is inside view frustum
+//-----------------------------------------------------------------------------
+void AABBoxRasterizerScalarMT::IsInsideViewFrustum(UINT taskId, UINT taskCount)
+{
+	UINT numRemainingModels = mNumModels % taskCount;
+
+	UINT numModelsPerTask1 = mNumModels / taskCount + 1;
+	UINT numModelsPerTask2 = mNumModels / taskCount;
+
+	UINT start, end;
+
+	if(taskId < numRemainingModels)
+	{
+		start = taskId * numModelsPerTask1;
+		end   = start +  numModelsPerTask1;
+	}
+	else
+	{
+		start = (numRemainingModels * numModelsPerTask1) + ((taskId - numRemainingModels) * numModelsPerTask2);
+		end   = start +  numModelsPerTask2;
+	}
+	
+	for(UINT i = start; i < end; i++)
+	{
+		mpTransformedAABBox[i].IsInsideViewFrustum(mpCamera);
+	}
+}
+
 //-------------------------------------------------------------------------------
 // Create mNumDepthTestTasks to tarnsform occludee AABBox, rasterize and depth test 
 // to determine if occludee is visible or occluded
 //-------------------------------------------------------------------------------
-void AABBoxRasterizerScalarMT::TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UINT idx)
+void AABBoxRasterizerScalarMT::TransformAABBoxAndDepthTest()
 {
-	mTaskData[idx].idx = idx;
-	mTaskData[idx].pAABB = this;
+	mDepthTestTimer.StartTimer();
 
-	mpCamera[idx] = pCamera;
-	
-	gTaskMgr.CreateTaskSet(&AABBoxRasterizerScalarMT::TransformAABBoxAndDepthTest, &mTaskData[idx], mNumDepthTestTasks, &gRasterize[idx], 1, "Xform Vertices", &gAABBoxDepthTest[idx]);
-}
-
-void AABBoxRasterizerScalarMT::WaitForTaskToFinish(UINT idx)
-{
+	gTaskMgr.CreateTaskSet(&AABBoxRasterizerScalarMT::TransformAABBoxAndDepthTest, this, mNumDepthTestTasks, NULL, 0, "Xform Vertices", &mAABBoxDepthTest);
 	// Wait for the task set
-	gTaskMgr.WaitForSet(gAABBoxDepthTest[idx]);
-}
-
-void AABBoxRasterizerScalarMT::ReleaseTaskHandles(UINT idx)
-{
+	gTaskMgr.WaitForSet(mAABBoxDepthTest);
 	// Release the task set
-	if(mEnableFCulling)
-	{
-		gTaskMgr.ReleaseHandle(gInsideViewFrustum[idx]);
-	}
-	else
-	{
-		gTaskMgr.ReleaseHandle(gTooSmall[idx]);
-	}
-	gTaskMgr.ReleaseHandle(gActiveModels[idx]);
-	gTaskMgr.ReleaseHandle(gXformMesh[idx]);
-	gTaskMgr.ReleaseHandle(gBinMesh[idx]);
-	gTaskMgr.ReleaseHandle(gSortBins[idx]);
-	gTaskMgr.ReleaseHandle(gRasterize[idx]);
-	gTaskMgr.ReleaseHandle(gAABBoxDepthTest[idx]);
+	gTaskMgr.ReleaseHandle(mAABBoxDepthTest);
+	mAABBoxDepthTest = TASKSETHANDLE_INVALID;
 
-	gInsideViewFrustum[idx] = gTooSmall[idx] = gActiveModels[idx] = gXformMesh[idx] = gBinMesh[idx] = gSortBins[idx] = gRasterize[idx] = TASKSETHANDLE_INVALID;
-	gAABBoxDepthTest[idx] = TASKSETHANDLE_INVALID;
-
-	LARGE_INTEGER startTime = mStartTime[idx][0];
-	LARGE_INTEGER stopTime = mStopTime[idx][0];
-	for(UINT i = 0; i < mNumDepthTestTasks; i++)
-	{
-		startTime = startTime.QuadPart > mStartTime[idx][i].QuadPart ? mStartTime[idx][i] : startTime;
-		stopTime = stopTime.QuadPart < mStopTime[idx][i].QuadPart? mStopTime[idx][i] : stopTime;
-	}
-	mDepthTestTime[mTimeCounter++] = ((double)(stopTime.QuadPart - startTime.QuadPart)) / ((double)glFrequency.QuadPart);
+	mDepthTestTime[mTimeCounter++] = mDepthTestTimer.StopTimer();
 	mTimeCounter = mTimeCounter >= AVG_COUNTER ? 0 : mTimeCounter;
 }
 
@@ -86,49 +106,42 @@ void AABBoxRasterizerScalarMT::ReleaseTaskHandles(UINT idx)
 // * Rasterize the triangles that make up the AABBox
 // * Depth test the raterized triangles against the CPU rasterized depth buffer
 //--------------------------------------------------------------------------------
-void AABBoxRasterizerScalarMT::TransformAABBoxAndDepthTest(UINT taskId, UINT idx)
+void AABBoxRasterizerScalarMT::TransformAABBoxAndDepthTest(UINT taskId)
 {
-	QueryPerformanceCounter(&mStartTime[idx][taskId]);
-	
-	BoxTestSetupScalar setup;
-	setup.Init(mViewMatrix[idx], mProjMatrix[idx], viewportMatrix, mpCamera[idx], mOccludeeSizeThreshold);
+	UINT numRemainingModels = mNumModels % mNumDepthTestTasks;
 
-	float4 xformedPos[AABB_VERTICES];
-	float4x4 cumulativeMatrix;
+	UINT numModelsPerTask1 = mNumModels / mNumDepthTestTasks + 1;
+	UINT numModelsPerTask2 = mNumModels / mNumDepthTestTasks;
 
-	static const UINT kChunkSize = 64;
-	for(UINT base = taskId*kChunkSize; base < mNumModels; base += mNumDepthTestTasks * kChunkSize)
+	UINT start, end;
+	if(taskId < numRemainingModels)
 	{
-		UINT end = min(base + kChunkSize, mNumModels);
-		for(UINT i = base; i < end; i++)
+		start = taskId * numModelsPerTask1;
+		end   = start +  numModelsPerTask1;
+	}
+	else
+	{
+		start = (numRemainingModels * numModelsPerTask1) + ((taskId - numRemainingModels) * numModelsPerTask2);
+		end   = start +  numModelsPerTask2;
+	}
+
+	for(UINT i = start; i < end; i++)
+	{
+		mpVisible[i] = false;
+		mpTransformedAABBox[i].SetVisible(&mpVisible[i]);
+		
+		if(mpTransformedAABBox[i].IsInsideViewFrustum() && !mpTransformedAABBox[i].IsTooSmall(mViewMatrix, mProjMatrix, mpCamera))
 		{
-			if(mEnableFCulling)
-			{
-				// Determine if the occludee model AABBox is within the viewing frustum 
-				mpInsideFrustum[idx][i] = mpTransformedAABBox[i].IsInsideViewFrustum(mpCamera[idx]);
-			}
-			mpVisible[idx][i] = false;
-			
-			if(mpInsideFrustum[idx][i] && !mpTransformedAABBox[i].IsTooSmall(setup, cumulativeMatrix))
-			{
-				if(mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix))
-				{
-					mpVisible[idx][i] = mpTransformedAABBox[i].RasterizeAndDepthTestAABBox(mpRenderTargetPixels[idx], xformedPos, idx);
-				}
-				else
-				{
-					mpVisible[idx][i] = true;
-				}
-			}
+			mpTransformedAABBox[i].TransformAABBox();
+			mpTransformedAABBox[i].RasterizeAndDepthTestAABBox(mpRenderTargetPixels);
 		}
 	}
-	QueryPerformanceCounter(&mStopTime[idx][taskId]);
 }
 
 void AABBoxRasterizerScalarMT::TransformAABBoxAndDepthTest(VOID* pTaskData, INT context, UINT taskId, UINT taskCount)
 {
-	PerTaskData *pPerTaskData = (PerTaskData*)pTaskData;
-	pPerTaskData->pAABB->TransformAABBoxAndDepthTest(taskId, pPerTaskData->idx);
+	AABBoxRasterizerScalarMT *pAabbox = (AABBoxRasterizerScalarMT*)pTaskData;
+	pAabbox->TransformAABBoxAndDepthTest(taskId);
 }
 
 

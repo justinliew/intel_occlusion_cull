@@ -175,6 +175,9 @@
     <ClCompile Include="CPUT\CPUTInputLayoutCacheDX11.cpp">
       <Filter>Models</Filter>
     </ClCompile>
+    <ClCompile Include="CPUT\CPUTBuffer.cpp">
+      <Filter>Materials\Buffers</Filter>
+    </ClCompile>
     <ClCompile Include="CPUT\CPUTBufferDX11.cpp">
       <Filter>Materials\Buffers</Filter>
     </ClCompile>

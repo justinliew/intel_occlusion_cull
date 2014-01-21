@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -22,7 +22,11 @@
 CPUTTimerWin::CPUTTimerWin():mbCounting(false)
 {
     ResetTimer();
-    QueryPerformanceFrequency(&mlFrequency);
+
+	//
+	// Frequency only needs to be collected once.
+	//
+	QueryPerformanceFrequency(&mlFrequency);
 }
 
 //
@@ -60,22 +64,11 @@ double CPUTTimerWin::StopTimer()
 {
     if(mbCounting)
     {
-        mbCounting = false;
+		mbCounting = false;
         QueryPerformanceCounter(&mlLastMeasured);
-    }
+	}
 
-    return (((double)(mlLastMeasured.QuadPart - mlStartCount.QuadPart)) / ((double)(mlFrequency.QuadPart)));
-}
-
-LARGE_INTEGER CPUTTimerWin::GetTimer()
-{
-	QueryPerformanceCounter(&mlLastMeasured);
-	return mlLastMeasured;
-}
-
-double CPUTTimerWin::GetTime(LARGE_INTEGER t1, LARGE_INTEGER t2)
-{
-	return ((double(t2.QuadPart - t1.QuadPart)) / ((double)(mlFrequency.QuadPart)));
+	return (((double)(mlLastMeasured.QuadPart - mlStartCount.QuadPart)) / ((double)(mlFrequency.QuadPart)));
 }
 
 //
@@ -86,14 +79,14 @@ double CPUTTimerWin::GetTime(LARGE_INTEGER t1, LARGE_INTEGER t2)
 //
 double CPUTTimerWin::GetTotalTime()
 {
-    LARGE_INTEGER temp;
+	LARGE_INTEGER temp;
 
-    if (mbCounting) {
-        QueryPerformanceCounter(&temp);
-        return ((double)(temp.QuadPart - mlStartCount.QuadPart) / (double)(mlFrequency.QuadPart));
-    }
+	if (mbCounting) {
+		QueryPerformanceCounter(&temp);
+		return ((double)(temp.QuadPart - mlStartCount.QuadPart) / (double)(mlFrequency.QuadPart));
+	}
 
-    return ((double)(mlLastMeasured.QuadPart - mlStartCount.QuadPart) / (double)(mlFrequency.QuadPart));
+	return ((double)(mlLastMeasured.QuadPart - mlStartCount.QuadPart) / (double)(mlFrequency.QuadPart));
 }
 
 //
@@ -104,15 +97,15 @@ double CPUTTimerWin::GetTotalTime()
 //
 double CPUTTimerWin::GetElapsedTime()
 {
-    LARGE_INTEGER temp;
-    LARGE_INTEGER elapsedTime;
-    elapsedTime.QuadPart = 0;
+	LARGE_INTEGER temp;
+	LARGE_INTEGER elapsedTime;
+	elapsedTime.QuadPart = 0;
 
-    if (mbCounting) {
-        QueryPerformanceCounter(&temp);
-        elapsedTime.QuadPart = temp.QuadPart - mlLastMeasured.QuadPart;
-        mlLastMeasured = temp;
-    }
+	if (mbCounting) {
+		QueryPerformanceCounter(&temp);
+		elapsedTime.QuadPart = temp.QuadPart - mlLastMeasured.QuadPart;
+		mlLastMeasured = temp;
+	}
 
-    return ((double)elapsedTime.QuadPart / (double)mlFrequency.QuadPart);
+	return ((double)elapsedTime.QuadPart / (double)mlFrequency.QuadPart);
 }

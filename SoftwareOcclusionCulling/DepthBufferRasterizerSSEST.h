@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -24,14 +24,14 @@ class DepthBufferRasterizerSSEST : public DepthBufferRasterizerSSE
 		DepthBufferRasterizerSSEST();
 		~DepthBufferRasterizerSSEST();
 
-		void TransformModelsAndRasterizeToDepthBuffer(CPUTCamera *pCamera, UINT idx);
-		void ComputeR2DBTime(UINT idx);
+		void IsVisible(CPUTCamera* pCamera);
+		void TransformModelsAndRasterizeToDepthBuffer();
 
 	private:
-		void ActiveModels(UINT idx);
-		void TransformMeshes(UINT idx);
-		void BinTransformedMeshes(UINT idx);
-		void RasterizeBinnedTrianglesToDepthBuffer(UINT tileId, UINT idx);
+		void TransformMeshes();
+		void BinTransformedMeshes();
+		void RasterizeBinnedTrianglesToDepthBuffer(UINT tileId);
+
 };
 
 #endif  //DEPTHBUFFERRASTERIZERSSEST_H

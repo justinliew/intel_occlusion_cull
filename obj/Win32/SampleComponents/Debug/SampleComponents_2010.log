@@ -1,0 +1,25 @@
+﻿Build started 11/27/2013 4:29:27 PM.
+     1>Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\SampleComponents_2010.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\middleware\tbb\include\tbb /IC:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\ /ZI /nologo /W3 /WX- /Od /Oy- /D VS2010 /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\\" /Fd"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt DynamicTaskMgrBase.cpp TaskMgrCRT.cpp TaskMgrSS.cpp TaskMgrTBB.cpp TaskScheduler.cpp
+         TaskScheduler.cpp
+         TaskMgrTBB.cpp
+         TaskMgrSS.cpp
+         TaskMgrCRT.cpp
+     1>c:\program files (x86)\microsoft visual studio 10.0\vc\include\string(757): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>c:\program files (x86)\microsoft visual studio 10.0\vc\include\string(766): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>c:\program files (x86)\microsoft visual studio 10.0\vc\include\string(775): warning C4995: 'swprintf': name was marked as #pragma deprecated
+         DynamicTaskMgrBase.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\bin\Win32\SampleComponents\Debug\SampleComponents.lib" /NOLOGO /MACHINE:X86 C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\DynamicTaskMgrBase.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\TaskMgrCRT.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\TaskMgrSS.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\TaskMgrTBB.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\Win32\SampleComponents\Debug\TaskScheduler.obj
+         SampleComponents_2010.vcxproj -> C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\bin\Win32\SampleComponents\Debug\SampleComponents.lib
+     1>Done Building Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\SampleComponents_2010.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.16

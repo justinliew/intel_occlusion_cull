@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -17,7 +17,9 @@
 
 #include "CPUTText.h"
 #ifdef CPUT_FOR_DX11
-    #include "CPUTGuiControllerDX11.h" // only for CPUTGuiControllerDX11::GetController()
+    #include "CPUTGuiControllerDX11.h" // only for CPUTGUIController::GetController()
+#elif defined(CPUT_FOR_OGLES)
+    #include "CPUTGuiControllerOGLES.h" // only for CPUTGUIController::GetController()
 #else    
 #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
@@ -265,8 +267,16 @@ CPUTResult CPUTDropdown::AddSelectionItem(const cString Item, bool bIsSelected)
     // position or size may move - force a recalculation of this control's location
     // if it is managed by the auto-arrange function
     if(this->IsAutoArranged())
-    {        
-        CPUTGuiControllerDX11::GetController()->Resize();
+    {
+        
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->Resize();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->Resize();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
+
     }
 
     return CPUT_SUCCESS;
@@ -344,7 +354,13 @@ void CPUTDropdown::DeleteSelectionItem(const UINT index)
     // if it is managed by the auto-arrange function
     if(this->IsAutoArranged())
     {
-        CPUTGuiControllerDX11::GetController()->Resize();
+#ifdef CPUT_FOR_DX11
+    CPUTGuiControllerDX11::GetController()->Resize();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->Resize();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
     }
 }
 
@@ -1054,8 +1070,15 @@ void CPUTDropdown::Recalculate()
         sy+=rect.height + 2*CPUT_DROPDOWN_TEXT_PADDING;
     }
 
+
     // mark this as dirty
+#ifdef CPUT_FOR_DX11
     CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+    CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+#error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
 }
 
 

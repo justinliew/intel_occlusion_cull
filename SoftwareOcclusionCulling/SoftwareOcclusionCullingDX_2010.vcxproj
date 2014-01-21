@@ -98,7 +98,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT;..\SampleComponents\Middleware\TBB\include\tbb</IncludePath>
     <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_D64</TargetName>
@@ -119,15 +119,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT;..\SampleComponents\Middleware\TBB\include\tbb</IncludePath>
     <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_R64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT;;$(GPA_INCLUDE_DIR)</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponents\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath);.\CPUT\CPUT;..\SampleComponents\Middleware\TBB\include\tbb</IncludePath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(SolutionDir)\lib;..\bin\$(Platform)\SampleComponentsDLL\$(Configuration)\;..\SampleComponentsDLL\Middleware\TBB\lib\intel64\vc10\</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_P64</TargetName>
   </PropertyGroup>
@@ -160,7 +160,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointExceptions>false</FloatingPointExceptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\SampleComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\SampleComponentsDLL</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -222,7 +222,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\SampleComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\SampleComponentsDLL</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -243,7 +243,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;CPUT_GPA_INSTRUMENTATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\SampleComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\SampleComponentsDLL</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

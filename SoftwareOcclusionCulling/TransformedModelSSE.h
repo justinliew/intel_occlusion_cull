@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -22,24 +22,18 @@
 #include "TransformedMeshSSE.h"
 #include "HelperSSE.h"
 
-struct BoxTestSetupSSE;
-
 class TransformedModelSSE : public HelperSSE
 {
 	public:
 		TransformedModelSSE();
 		~TransformedModelSSE();
 		void CreateTransformedMeshes(CPUTModelDX11 *pModel);
-		void InsideViewFrustum(const BoxTestSetupSSE &setup,
-							   UINT idx);
-
-		void TooSmall(const BoxTestSetupSSE &setup,
-					  UINT idx);
-
-		void TransformMeshes(UINT start, 
+		void IsVisible(CPUTCamera *pCamera);
+		void TransformMeshes(__m128 *viewMatrix, 
+					    	 __m128 *projMatrix,
+							 UINT start, 
 							 UINT end,
-							 CPUTCamera *pCamera,
-							 UINT idx);
+							 CPUTCamera *pCamera);
 
 		void BinTransformedTrianglesST(UINT taskId,
 									   UINT modelId,
@@ -48,8 +42,7 @@ class TransformedModelSSE : public HelperSSE
 									   UINT* pBin,
 									   USHORT* pBinModel,
 									   USHORT* pBinMesh,
-									   USHORT* pNumTrisInBin,
-									   UINT idx);
+									   USHORT* pNumTrisInBin);
 
 		void BinTransformedTrianglesMT(UINT taskId,
 									   UINT modelId,
@@ -58,59 +51,81 @@ class TransformedModelSSE : public HelperSSE
 									   UINT* pBin,
 									   USHORT* pBinModel,
 									   USHORT* pBinMesh,
-									   USHORT* pNumTrisInBin,
-									   UINT idx);
+									   USHORT* pNumTrisInBin);
 
-		void Gather(__m128 xformedPos[3],
+		void Gather(float* xformedPos,
 			        UINT meshId, 
 					UINT triId, 
-					UINT idx);
+					UINT lane);
 
-		inline UINT GetNumVertices(){return mNumVertices;}
-
-		inline UINT GetNumTriangles(){return mNumTriangles;}
-
-		inline void SetXformedPos(__m128 *pXformedPos0, __m128 *pXformedPos1, UINT modelStart)
+		inline UINT GetNumVertices()
 		{
-			mpXformedPos[0] = pXformedPos0;
-			mpXformedPos[1] = pXformedPos1;
+			UINT numVertices = 0;
+			for(UINT i = 0; i < mNumMeshes; i++)
+			{
+				numVertices += mpMeshes[i].GetNumVertices();
+			}
+			return numVertices;
+		}
 
-			mpMeshes[0].SetXformedPos(mpXformedPos[0], mpXformedPos[1]);
-					
+		inline UINT GetNumTriangles()
+		{
+			UINT numTriangles = 0;
+			for(UINT i = 0; i < mNumMeshes; i++)
+			{
+				numTriangles += mpMeshes[i].GetNumTriangles();
+			}
+			return numTriangles;
+		}
+
+		inline void SetXformedPos(__m128 *pXformedPos, UINT modelStart)
+		{
+			mpXformedPos = pXformedPos;
+
+			mpMeshes[0].SetXformedPos(mpXformedPos);
+			mpMeshes[0].SetVertexStart(modelStart);
+			
 			UINT numVertices = 0;
 			numVertices += mpMeshes[0].GetNumVertices();
 			
 			for(UINT i = 1; i < mNumMeshes; i++)
 			{
-				mpMeshes[i].SetXformedPos(mpXformedPos[0] + numVertices, mpXformedPos[1] + numVertices);
+				mpMeshes[i].SetXformedPos((mpXformedPos + numVertices));
+				mpMeshes[i].SetVertexStart(modelStart + numVertices);
 				numVertices += mpMeshes[i].GetNumVertices(); 
 			}
 		}
-		
-		inline void SetInsideFrustum(bool inFrustum, UINT idx){mInsideViewFrustum[idx] = inFrustum;}
 
-		inline bool IsRasterized2DB(UINT idx)
+		inline void SetOccluderSizeThreshold(float occluderSizeThreshold)
 		{
-			return (mInsideViewFrustum[idx] && !mTooSmall[idx]);
+			mOccluderSizeThreshold = occluderSizeThreshold;
+		}
+
+		inline void SetVisible(bool visible){mVisible = visible;}
+
+		inline bool IsRasterized2DB()
+		{
+			return (mVisible && !mTooSmall);
 		}
 
 	private:
 		CPUTModelDX11 *mpCPUTModel;
 		UINT mNumMeshes;
 		__m128 *mWorldMatrix;
-		__m128 *mCumulativeMatrix[2];
-		UINT mNumVertices;
-		UINT mNumTriangles;
+		__m128 *mViewMatrix;
+		__m128 *mProjMatrix;
+		__m128 *mViewPortMatrix;
 				
 		float3 mBBCenterWS;
 		float3 mBBHalfWS;
-		bool mInsideViewFrustum[2];
-		bool mTooSmall[2];
+		bool mVisible;
+		bool mTooSmall;
+		float mOccluderSizeThreshold;
 
-		float3 mBBCenterOS;
-		float mRadiusSq;
+		float4 mBBCenterOS;
+		float4 mBBHalfOS;
 		TransformedMeshSSE *mpMeshes;
-		__m128 *mpXformedPos[2];		
+		__m128 *mpXformedPos;
 };
 
 #endif

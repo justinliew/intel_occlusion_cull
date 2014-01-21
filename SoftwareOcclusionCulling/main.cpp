@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -15,46 +15,10 @@
 //--------------------------------------------------------------------------------------
 #include "SoftwareOcclusionCulling.h"
 
-void ParseCommandLine()
-{
-	LPTSTR commandLine = GetCommandLineW();
-	int numArgs = 0;
-	LPWSTR* argv = CommandLineToArgvW(commandLine, &numArgs);
-
-	for(int i = 1; i < numArgs; i += 2) 
-	{
-		if(!_wcsicmp(argv[i], L"-dropdown1"))
-		{
-			if(!_wcsicmp(argv[i+1], L"SSE_TYPE"))
-			{
-				gSOCType = SSE_TYPE;
-			}
-			else
-			{
-				gSOCType = SCALAR_TYPE;
-			}
-		}
-		if(!_wcsicmp(argv[i], L"-slider1"))
-		{
-			gOccluderSizeThreshold = (float)_wtof(argv[i+1]);
-		}
-		if(!_wcsicmp(argv[i], L"-slider2"))
-		{
-			gOccludeeSizeThreshold = (float)_wtof(argv[i+1]);
-		}
-		if(!_wcsicmp(argv[i], L"-slider3"))
-		{
-			gDepthTestTasks = wcstoul(argv[i+1], NULL, 10);
-		}
-	}
-}
-
 // Application entry point.  Execution begins here.
 //-----------------------------------------------------------------------------
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
-	ParseCommandLine();
-
     // Prevent unused parameter compiler warnings
     UNREFERENCED_PARAMETER(hInstance);
     UNREFERENCED_PARAMETER(hPrevInstance);
@@ -114,6 +78,3 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     return returnCode;
 }
-
-
-

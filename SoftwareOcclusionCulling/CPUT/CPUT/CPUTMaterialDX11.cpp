@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -58,8 +58,7 @@ CPUTMaterialDX11::CPUTMaterialDX11() :
     mpVertexShader(NULL),
     mpGeometryShader(NULL),
     mpHullShader(NULL),
-    mpDomainShader(NULL),
-    mRequiresPerModelPayload(-1)
+    mpDomainShader(NULL)
 {
 	// TODO: Is there a better/safer way to initialize this list?
     mpShaderParametersList[0] =  &mPixelShaderParameters,
@@ -205,9 +204,9 @@ void CPUTMaterialDX11::ReadShaderSamplersAndTextures( ID3DBlob *pBlob, CPUTShade
     D3DReflect( pBlob->GetBufferPointer(), pBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&pReflector);
     // Walk through the shader input bind descriptors.  Find the samplers and textures.
     int ii=0;
-    HRESULT hr = pReflector->GetResourceBindingDesc( ii++, &desc );
-    while( SUCCEEDED(hr) )
-    {
+	HRESULT hr = pReflector->GetResourceBindingDesc( ii++, &desc );
+	while( SUCCEEDED(hr) )
+	{
         switch( desc.Type )
         {
         case D3D_SIT_TEXTURE:
@@ -235,7 +234,7 @@ void CPUTMaterialDX11::ReadShaderSamplersAndTextures( ID3DBlob *pBlob, CPUTShade
             pShaderParameter->mUAVParameterCount++;
             break;
         }
-        hr = pReflector->GetResourceBindingDesc( ii++, &desc );
+    	hr = pReflector->GetResourceBindingDesc( ii++, &desc );
     }
 
     pShaderParameter->mpTextureParameterName              = new cString[pShaderParameter->mTextureParameterCount];
@@ -256,7 +255,7 @@ void CPUTMaterialDX11::ReadShaderSamplersAndTextures( ID3DBlob *pBlob, CPUTShade
     UINT bufferIndex = 0;
     UINT uavIndex = 0;
     UINT constantBufferIndex = 0;
-    hr = pReflector->GetResourceBindingDesc( ii++, &desc );
+	hr = pReflector->GetResourceBindingDesc( ii++, &desc );
 
     while( SUCCEEDED(hr) )
     {
@@ -295,7 +294,7 @@ void CPUTMaterialDX11::ReadShaderSamplersAndTextures( ID3DBlob *pBlob, CPUTShade
             uavIndex++;
             break;
         }
-        hr = pReflector->GetResourceBindingDesc( ii++, &desc );
+		hr = pReflector->GetResourceBindingDesc( ii++, &desc );
     }
 }
 
@@ -359,7 +358,7 @@ void CPUTMaterialDX11::BindBuffers( CPUTShaderParameters &params, const CPUTMode
     CPUTAssetLibraryDX11 *pAssetLibrary = (CPUTAssetLibraryDX11*)CPUTAssetLibrary::GetAssetLibrary();
     for(params.mBufferCount=0; params.mBufferCount < params.mBufferParameterCount; params.mBufferCount++)
     {
-        cString bufferName;
+        cString name;
         UINT bufferCount = params.mBufferCount;
         cString tagName = params.mpBufferParameterName[bufferCount];
         {
@@ -370,25 +369,25 @@ void CPUTMaterialDX11::BindBuffers( CPUTShaderParameters &params, const CPUTMode
                 pValue = mGlobalProperties.GetValueByName(tagName);
             }
             ASSERT( pValue->IsValid(), L"Can't find buffer '" + tagName + L"'." ); //  TODO: fix message
-            bufferName = pValue->ValueAsString();
+            name = pValue->ValueAsString();
         }
         UINT bindPoint = params.mpBufferParameterBindPoint[bufferCount]; 
         ASSERT( bindPoint < CPUT_MATERIAL_MAX_BUFFER_SLOTS, _L("Buffer bind point out of range.") );
 
         const CPUTModel *pWhichModel = NULL;
         int              whichMesh   = -1;
-        if( bufferName[0] == '@' )
+        if( name[0] == '@' )
         {
             pWhichModel = pModel;
             whichMesh   = meshIndex;
-        } else if( bufferName[0] == '#' )
+        } else if( name[0] == '#' )
         {
             pWhichModel = pModel;
         }
         if( !mpBuffer[bufferCount] )
         {
-            mpBuffer[bufferCount] = pAssetLibrary->GetBuffer( bufferName, pWhichModel, whichMesh );
-            ASSERT( mpBuffer[bufferCount], _L("Failed getting buffer ") + bufferName);
+            mpBuffer[bufferCount] = pAssetLibrary->GetBuffer( name, pWhichModel, whichMesh );
+            ASSERT( mpBuffer[bufferCount], _L("Failed getting buffer ") + name);
         }
 
         params.mppBindViews[bindPoint]   = ((CPUTBufferDX11*)mpBuffer[bufferCount])->GetShaderResourceView();
@@ -404,7 +403,7 @@ void CPUTMaterialDX11::BindUAVs( CPUTShaderParameters &params, const CPUTModel *
     memset( params.mppBindUAVs, 0, sizeof(params.mppBindUAVs) );
     for(params.mUAVCount=0; params.mUAVCount < params.mUAVParameterCount; params.mUAVCount++)
     {
-        cString uavName;
+        cString name;
         UINT uavCount = params.mUAVCount;
 
         cString tagName = params.mpUAVParameterName[uavCount];
@@ -416,26 +415,27 @@ void CPUTMaterialDX11::BindUAVs( CPUTShaderParameters &params, const CPUTModel *
                 pValue = mGlobalProperties.GetValueByName(tagName);
             }
             ASSERT( pValue->IsValid(), L"Can't find UAV '" + tagName + L"'." ); //  TODO: fix message
-            uavName = pValue->ValueAsString();
+            name = pValue->ValueAsString();
         }
         UINT bindPoint = params.mpUAVParameterBindPoint[uavCount];
         ASSERT( bindPoint < CPUT_MATERIAL_MAX_UAV_SLOTS, _L("UAV bind point out of range.") );
 
         const CPUTModel *pWhichModel = NULL;
         int              whichMesh   = -1;
-        if( uavName[0] == '@' )
+        if( name[0] == '@' )
         {
             pWhichModel = pModel;
             whichMesh   = meshIndex;
-        } else if( uavName[0] == '#' )
+        } else if( name[0] == '#' )
         {
             pWhichModel = pModel;
         }
         if( !mpUAV[uavCount] )
         {
-            mpUAV[uavCount] = pAssetLibrary->GetBuffer( uavName, pWhichModel, whichMesh );
-            ASSERT( mpUAV[uavCount], _L("Failed getting UAV ") + uavName);
+            mpUAV[uavCount] = pAssetLibrary->GetBuffer( name, pWhichModel, whichMesh );
+            ASSERT( mpUAV[uavCount], _L("Failed getting UAV ") + name);
         }
+
         // If has UAV, then add to mppBindUAV
         params.mppBindUAVs[bindPoint]   = ((CPUTBufferDX11*)mpUAV[uavCount])->GetUnorderedAccessView();
         if( params.mppBindUAVs[bindPoint] )  { params.mppBindUAVs[bindPoint]->AddRef();}
@@ -449,7 +449,7 @@ void CPUTMaterialDX11::BindConstantBuffers( CPUTShaderParameters &params, const 
     CPUTAssetLibraryDX11 *pAssetLibrary = (CPUTAssetLibraryDX11*)CPUTAssetLibrary::GetAssetLibrary();
     for(params.mConstantBufferCount=0; params.mConstantBufferCount < params.mConstantBufferParameterCount; params.mConstantBufferCount++)
     {
-        cString constantBufferName;
+        cString name;
         UINT constantBufferCount = params.mConstantBufferCount;
 
         cString tagName = params.mpConstantBufferParameterName[constantBufferCount];
@@ -461,18 +461,18 @@ void CPUTMaterialDX11::BindConstantBuffers( CPUTShaderParameters &params, const 
                 pValue = mGlobalProperties.GetValueByName(tagName);
             }
             ASSERT( pValue->IsValid(), L"Can't find constant buffer '" + tagName + L"'." ); //  TODO: fix message
-            constantBufferName = pValue->ValueAsString();
+            name = pValue->ValueAsString();
         }
         UINT bindPoint = params.mpConstantBufferParameterBindPoint[constantBufferCount];
         ASSERT( bindPoint < CPUT_MATERIAL_MAX_CONSTANT_BUFFER_SLOTS, _L("Constant buffer bind point out of range.") );
 
         const CPUTModel *pWhichModel = NULL;
         int              whichMesh   = -1;
-        if( constantBufferName[0] == '@' )
+        if( name[0] == '@' )
         {
             pWhichModel = pModel;
             whichMesh   = meshIndex;
-        } else if( constantBufferName[0] == '#' )
+        } else if( name[0] == '#' )
         {
             pWhichModel = pModel;
         }
@@ -480,12 +480,12 @@ void CPUTMaterialDX11::BindConstantBuffers( CPUTShaderParameters &params, const 
         {
             if( pWhichModel )
             {
-                mpConstantBuffer[constantBufferCount] = pAssetLibrary->GetConstantBuffer( constantBufferName, pWhichModel, whichMesh );
+                mpConstantBuffer[constantBufferCount] = pAssetLibrary->GetConstantBuffer( name, pWhichModel, whichMesh );
             } else
             {
-                mpConstantBuffer[constantBufferCount] = pAssetLibrary->GetConstantBuffer( constantBufferName );
+                mpConstantBuffer[constantBufferCount] = pAssetLibrary->GetConstantBuffer( name );
             }
-            ASSERT( mpConstantBuffer[constantBufferCount], _L("Failed getting constant buffer ") + constantBufferName);
+            ASSERT( mpConstantBuffer[constantBufferCount], _L("Failed getting constant buffer ") + name);
         }
 
         // If has constant buffer, then add to mppBindConstantBuffer
@@ -660,17 +660,14 @@ CPUTMaterial *CPUTMaterialDX11::CloneMaterial(const cString &fileName, const CPU
 //-----------------------------------------------------------------------------
 bool CPUTMaterialDX11::MaterialRequiresPerModelPayload()
 {
-    if( mRequiresPerModelPayload == -1 )
-    {
-        mRequiresPerModelPayload = 
-            (mpPixelShader    && mpPixelShader   ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
-            (mpComputeShader  && mpComputeShader ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
-            (mpVertexShader   && mpVertexShader  ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
-            (mpGeometryShader && mpGeometryShader->ShaderRequiresPerModelPayload(mConfigBlock))  ||
-            (mpHullShader     && mpHullShader    ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
-            (mpDomainShader   && mpDomainShader  ->ShaderRequiresPerModelPayload(mConfigBlock));
-    }
-    return mRequiresPerModelPayload != 0;
+    ID3D11Device *pD3dDevice = CPUT_DX11::GetDevice();
+    return 
+        (mpPixelShader    && mpPixelShader   ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
+        (mpComputeShader  && mpComputeShader ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
+        (mpVertexShader   && mpVertexShader  ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
+        (mpGeometryShader && mpGeometryShader->ShaderRequiresPerModelPayload(mConfigBlock))  ||
+        (mpHullShader     && mpHullShader    ->ShaderRequiresPerModelPayload(mConfigBlock))  ||
+        (mpDomainShader   && mpDomainShader  ->ShaderRequiresPerModelPayload(mConfigBlock));
 }
 
 //-----------------------------------------------------------------------------

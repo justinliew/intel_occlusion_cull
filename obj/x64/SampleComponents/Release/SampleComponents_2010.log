@@ -1,0 +1,24 @@
+﻿Build started 11/29/2013 4:00:02 PM.
+     1>Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\SampleComponents_2010.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I.\middleware\tbb\include\tbb /IC:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\ /Zi /nologo /W3 /WX- /O2 /Oi /GL /D VS2010 /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\\" /Fd"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\vc100.pdb" /Gd /TP /errorReport:prompt DynamicTaskMgrBase.cpp TaskMgrCRT.cpp TaskMgrSS.cpp TaskMgrTBB.cpp TaskScheduler.cpp
+         DynamicTaskMgrBase.cpp
+         TaskMgrCRT.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string(757): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string(766): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string(775): warning C4995: 'swprintf': name was marked as #pragma deprecated
+         TaskMgrSS.cpp
+         TaskMgrTBB.cpp
+         TaskScheduler.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\bin\x64\SampleComponents\Release\SampleComponents.lib" /NOLOGO /MACHINE:X64 /LTCG C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\DynamicTaskMgrBase.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\TaskMgrCRT.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\TaskMgrSS.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\TaskMgrTBB.obj
+         C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\obj\x64\SampleComponents\Release\TaskScheduler.obj
+         SampleComponents_2010.vcxproj -> C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\..\bin\x64\SampleComponents\Release\SampleComponents.lib
+     1>Done Building Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SampleComponentsDLL\SampleComponents_2010.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.19

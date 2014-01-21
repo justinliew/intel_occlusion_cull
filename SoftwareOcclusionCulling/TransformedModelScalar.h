@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -28,16 +28,12 @@ class TransformedModelScalar : public HelperScalar
 		TransformedModelScalar();
 		~TransformedModelScalar();
 		void CreateTransformedMeshes(CPUTModelDX11 *pModel);
-		void InsideViewFrustum(const BoxTestSetupScalar &setup,
-							   UINT idx);
-
-		void TooSmall(const BoxTestSetupScalar &setup,
-					  UINT idx);
-
-		void TransformMeshes(UINT start, 
+		void IsVisible(CPUTCamera* pCamera);
+		void TransformMeshes(float4x4 *viewMatrix, 
+					    	 float4x4 *projMatrix,
+							 UINT start, 
 							 UINT end,
-							 CPUTCamera* pCamera,
-							 UINT idx);
+							 CPUTCamera* pCamera);
 
 		void BinTransformedTrianglesST(UINT taskId,
 			   					       UINT modelId,
@@ -46,8 +42,7 @@ class TransformedModelScalar : public HelperScalar
 									   UINT* pBin,
 									   USHORT* pBinModel,
 									   USHORT* pBinMesh,
-									   USHORT* pNumTrisInBin,
-									   UINT idx);
+									   USHORT* pNumTrisInBin);
 
 		void BinTransformedTrianglesMT(UINT taskId,
 			   					       UINT modelId,
@@ -56,60 +51,78 @@ class TransformedModelScalar : public HelperScalar
 									   UINT* pBin,
 									   USHORT* pBinModel,
 									   USHORT* pBinMesh,
-									   USHORT* pNumTrisInBin,
-									   UINT idx);
+									   USHORT* pNumTrisInBin);
 
 		void Gather(float* xformedPos,
 					UINT meshId, 
 					UINT triId, 
-					UINT idx);
+					UINT lane);
 
-		inline UINT GetNumVertices(){return mNumVertices;}
-
-		inline UINT GetNumTriangles(){return mNumTriangles;}
-
-		inline void SetXformedPos(float4 *pXformedPos0, float4 *pXformedPos1, UINT modelStart)
+		inline UINT GetNumVertices()
 		{
-			mpXformedPos[0] = pXformedPos0;
-			mpXformedPos[1] = pXformedPos1;
+			UINT numVertices = 0;
+			for(UINT i = 0; i < mNumMeshes; i++)
+			{
+				numVertices += mpMeshes[i].GetNumVertices();
+			}
+			return numVertices;
+		}
 
-			mpMeshes[0].SetXformedPos(mpXformedPos[0], mpXformedPos[1]);
-					
+		inline UINT GetNumTriangles()
+		{
+			UINT numTriangles = 0;
+			for(UINT i = 0; i < mNumMeshes; i++)
+			{
+				numTriangles += mpMeshes[i].GetNumTriangles();
+			}
+			return numTriangles;
+		}
+
+		inline void SetXformedPos(float4 *pXformedPos, UINT modelStart)
+		{
+			mpXformedPos = pXformedPos;
+
+			mpMeshes[0].SetXformedPos(mpXformedPos);
+			mpMeshes[0].SetVertexStart(modelStart);
+			
 			UINT numVertices = 0;
 			numVertices += mpMeshes[0].GetNumVertices();
 			
 			for(UINT i = 1; i < mNumMeshes; i++)
 			{
-				mpMeshes[i].SetXformedPos(mpXformedPos[0] + numVertices, mpXformedPos[1] + numVertices);
+				mpMeshes[i].SetXformedPos((mpXformedPos + numVertices));
+				mpMeshes[i].SetVertexStart(modelStart + numVertices);
 				numVertices += mpMeshes[i].GetNumVertices(); 
 			}
 		}
 
-		inline void SetInsideFrustum(bool inFrustum, UINT idx){mInsideViewFrustum[idx] = inFrustum;}
-
-		inline bool IsRasterized2DB(UINT idx)
+		inline void SetOccluderSizeThreshold(float occluderSizeThreshold)
 		{
-			return (mInsideViewFrustum[idx] && !mTooSmall[idx]);
+			mOccluderSizeThreshold = occluderSizeThreshold;
+		}
+
+		inline void SetVisible(bool visible){mVisible = visible;}
+
+		inline bool IsRasterized2DB()
+		{
+			return (mVisible && !mTooSmall);
 		}
 	
 	private:
 		CPUTModelDX11 *mpCPUTModel;
 		UINT mNumMeshes;
 		float4x4 mWorldMatrix;
-		float4x4 mCumulativeMatrix[2];
-		UINT mNumVertices;
-		UINT mNumTriangles;
 
 		float3 mBBCenterWS;
 		float3 mBBHalfWS;
-		bool mInsideViewFrustum[2];
-		bool mTooSmall[2];
+		bool mVisible;
+		bool mTooSmall;
 		float mOccluderSizeThreshold;
 
-		float3 mBBCenterOS;
-		float mRadiusSq;
+		float4 mBBCenterOS;
+		float4 mBBHalfOS;
 		TransformedMeshScalar *mpMeshes;
-		float4 *mpXformedPos[2];
+		float4 *mpXformedPos ;
 };
 
 #endif

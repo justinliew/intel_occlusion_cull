@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -17,8 +17,10 @@
 #include "CPUTText.h"
 #ifdef CPUT_FOR_DX11
     #include "CPUTGuiControllerDX11.h"
+#elif defined(CPUT_FOR_OGLES)
+    #include "CPUTGuiControllerOGLES.h"
 #else    
-    #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+        #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
 #endif
 #include <math.h> // for fmod
 #include <string.h>
@@ -514,11 +516,23 @@ void CPUTSlider::SetText(const cString ControlText)
     // if it is managed by the auto-arrange function
     if(this->IsAutoArranged())
     {
+#ifdef CPUT_FOR_DX11
         CPUTGuiControllerDX11::GetController()->Resize();
+#elif defined(CPUT_FOR_OGLES)
+        CPUTGuiControllerOGLES::GetController()->Resize();
+#else    
+        #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif 
     }
     else
     {
+#ifdef CPUT_FOR_DX11
         CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+        CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+        #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif 
     }
 }
 
@@ -864,7 +878,14 @@ void CPUTSlider::Recalculate()
             uberBufferIndex++;
         }
     }
-    CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+
+#ifdef CPUT_FOR_DX11
+        CPUTGuiControllerDX11::GetController()->ControlIsDirty();
+#elif defined(CPUT_FOR_OGLES)
+        CPUTGuiControllerOGLES::GetController()->ControlIsDirty();
+#else    
+        #error You must supply a target graphics API (ex: #define CPUT_FOR_DX11), or implement the target API for this file.
+#endif
 }
 
 

@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// Copyright 2013 Intel Corporation
+// Copyright 2011 Intel Corporation
 // All Rights Reserved
 //
 // Permission is granted to use, copy, distribute and prepare derivative works of this
@@ -37,7 +37,7 @@ CPUT_DX11::~CPUT_DX11()
     SAFE_RELEASE(mpBackBufferUAV);
     SAFE_RELEASE(mpBackBuffer);
     SAFE_RELEASE(mpDepthBuffer);
-    SAFE_RELEASE(mpBackBufferTexture);
+	SAFE_RELEASE(mpBackBufferTexture);
     SAFE_RELEASE(mpDepthBufferTexture);
 
 
@@ -50,7 +50,7 @@ CPUT_DX11::~CPUT_DX11()
         mpWindow = NULL;
     }
 
-    SAFE_DELETE(mpTimer);
+	SAFE_DELETE(mpTimer);
     DestroyDXContext();
 }
 
@@ -190,7 +190,7 @@ CPUTResult CPUT_DX11::CreateDXContext(CPUTContextCreation ContextParams )
     mpBackBufferRTV = NULL;
     UINT createDeviceFlags = 0;
 #ifdef _DEBUG
-    //createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+    createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
     D3D_DRIVER_TYPE driverTypes[] =
@@ -230,12 +230,6 @@ CPUTResult CPUT_DX11::CreateDXContext(CPUTContextCreation ContextParams )
     sd.SampleDesc.Quality = 0;
     sd.Windowed = TRUE;
     sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-
-    // set the vsync parameter
-    if(0 != ContextParams.refreshRate)
-    {
-        mSyncInterval = 1;
-    }
 
     // walk devices and create device and swap chain on best matching piece of hardware
     bool functionalityTestPassed = false;
@@ -479,9 +473,8 @@ bool CPUT_DX11::CPUTGetFullscreenState()
     // get the current fullscreen state
     BOOL bCurrentlyFullscreen;
     IDXGIOutput *pSwapTarget=NULL;
-    mpSwapChain->GetFullscreenState(&bCurrentlyFullscreen, &pSwapTarget);
-    SAFE_RELEASE(pSwapTarget);
-    if(bCurrentlyFullscreen )
+    HRESULT hr = mpSwapChain->GetFullscreenState(&bCurrentlyFullscreen, &pSwapTarget);
+    if(TRUE == bCurrentlyFullscreen )
     {
         return true;
     }
@@ -614,13 +607,14 @@ void CPUT_DX11::ResizeWindow(UINT width, UINT height)
     int windowWidth, windowHeight;
     CPUTOSServices *pServices = CPUTOSServices::GetOSServices();
     pServices->GetClientDimensions( &windowWidth, &windowHeight);
-
+ 
     // resize the swap chain
     hr = mpSwapChain->ResizeBuffers(mSwapChainBufferCount, windowWidth, windowHeight, mSwapChainFormat, 0);
     ASSERT( SUCCEEDED(hr), _L("Error resizing swap chain") );
-
+   
     // re-create the render-target view
     ID3D11Texture2D *pSwapChainBuffer = NULL;
+    ID3D11Texture2D *pSwapChainDepthBuffer = NULL;
     hr = mpSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D), (LPVOID*) (&pSwapChainBuffer));
     ASSERT(SUCCEEDED(hr), _L(""));
     hr = mpD3dDevice->CreateRenderTargetView( pSwapChainBuffer, NULL, &mpBackBufferRTV);
@@ -628,7 +622,7 @@ void CPUT_DX11::ResizeWindow(UINT width, UINT height)
     hr = mpD3dDevice->CreateShaderResourceView( pSwapChainBuffer, NULL, &mpBackBufferSRV);
     ASSERT(SUCCEEDED(hr), _L(""));
 #ifdef CREATE_SWAP_CHAIN_UAV
-    // Not every DXGI format supports UAV.  So, create UAV only if sample chooses to do so.
+	// Not every DXGI format supports UAV.  So, create UAV only if sample chooses to do so.
     hr = mpD3dDevice->CreateUnorderedAccessView( pSwapChainBuffer, NULL, &mpBackBufferUAV);
     ASSERT(SUCCEEDED(hr), _L(""));
 #endif
@@ -648,7 +642,7 @@ void CPUT_DX11::ResizeWindow(UINT width, UINT height)
         ((CPUTTextureDX11*)mpBackBufferTexture)->SetTextureAndShaderResourceView( NULL, mpBackBufferSRV );
     }
     else
-    {
+	{
         cString backBufferName = _L("$BackBuffer"); 
         mpBackBufferTexture  = new CPUTTextureDX11( backBufferName, NULL, mpBackBufferSRV );
         pAssetLibrary->AddTexture( backBufferName, mpBackBufferTexture );
@@ -721,7 +715,7 @@ void CPUT_DX11::ResizeWindowSoft(UINT width, UINT height)
 }
 
 //-----------------------------------------------------------------------------
-void CPUT_DX11::UpdatePerFrameConstantBuffer( double totalSeconds )
+void CPUT_DX11::SetPerFrameConstantBuffer( double totalSeconds )
 {
     if( mpPerFrameConstantBuffer )
     {
@@ -757,12 +751,12 @@ void CPUT_DX11::InnerExecutionLoop()
 #endif
     if(!mbShutdown)
     {
-        double deltaSeconds = mpTimer->GetElapsedTime();
-        Update(deltaSeconds);
+		double deltaSeconds = mpTimer->GetElapsedTime();
+		Update(deltaSeconds);
         Present(); // Note: Presenting immediately before Rendering minimizes CPU stalls (i.e., execute Update() before Present() stalls)
 
         double totalSeconds = mpTimer->GetTotalTime();
-        UpdatePerFrameConstantBuffer(totalSeconds);
+        SetPerFrameConstantBuffer(totalSeconds);
         CPUTMaterialDX11::ResetStateTracking();
         Render(deltaSeconds);
         if(!CPUTOSServices::GetOSServices()->DoesWindowHaveFocus())
@@ -947,8 +941,6 @@ CPUTResult CPUT_DX11::CPUTCreateWindowAndContext(const cString WindowTitle, CPUT
         return result;
     }
 
-    CPUTModelDX11::CreateModelConstantBuffer();
-
     HEAPCHECK;
 #define ENABLE_GUI
 #ifdef ENABLE_GUI
@@ -979,12 +971,12 @@ CPUTResult CPUT_DX11::CPUTCreateWindowAndContext(const cString WindowTitle, CPUT
     // trigger a post-create user callback event
     HEAPCHECK;
     Create();
-    HEAPCHECK;
+	HEAPCHECK;
 
-    //
-    // Start the timer after everything is initialized and assets have been loaded
-    //
-    mpTimer->StartTimer();
+	//
+	// Start the timer after everything is initialized and assets have been loaded
+	//
+	mpTimer->StartTimer();
 
     // if someone triggers the shutdown routine in on-create, exit
     if(mbShutdown)
@@ -1071,11 +1063,6 @@ int CPUT_DX11::CPUTMessageLoop()
 //-----------------------------------------------------------------------------
 void CPUT_DX11::DeviceShutdown()
 {
-    if(mpSwapChain)
-    {
-        // DX requires setting fullscreenstate to false before exit.
-        mpSwapChain->SetFullscreenState(false, NULL);
-    }
     if(false == mbShutdown)
     {
         mbShutdown = true;
@@ -1103,8 +1090,8 @@ void CPUT_DX11::RestartCPUT()
     //
     CPUTInputLayoutCacheDX11::GetInputLayoutCache()->ClearLayoutCache();
     CPUTAssetLibrary::GetAssetLibrary()->ReleaseAllLibraryLists();
-    CPUTGuiControllerDX11::GetController()->DeleteAllControls();
-    CPUTGuiControllerDX11::GetController()->ReleaseResources();
+	CPUTGuiControllerDX11::GetController()->DeleteAllControls();
+	CPUTGuiControllerDX11::GetController()->ReleaseResources();
 
     //
     // Clear out all DX resources and contexts
@@ -1115,12 +1102,12 @@ void CPUT_DX11::RestartCPUT()
     // Signal the window to close
     //
     mpWindow->Destroy();
-    
-    //
-    // Clear out the timer
-    //
-    mpTimer->StopTimer();
-    mpTimer->ResetTimer();
+	
+	//
+	// Clear out the timer
+	//
+	mpTimer->StopTimer();
+	mpTimer->ResetTimer();
     
     HEAPCHECK;
 }
