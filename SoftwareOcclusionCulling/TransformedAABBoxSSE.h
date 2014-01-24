@@ -44,18 +44,20 @@ class TransformedAABBoxSSE : public HelperSSE
 		inline void SetOccludeeSizeThreshold(float occludeeSizeThreshold){mOccludeeSizeThreshold = occludeeSizeThreshold;}
 
 	private:
+		static UINT	mBBIndexList[AABB_INDICES];
+
 		CPUTModelDX11 *mpCPUTModel;
 		__m128 *mWorldMatrix;
 		__m128 *mpBBVertexList;
 		__m128 *mpXformedPos;
 		__m128 *mCumulativeMatrix; 
-		UINT	mBBIndexList[AABB_INDICES];
 		bool   *mVisible;
-		bool    mInsideViewFrustum;
 		float   mOccludeeSizeThreshold;
-		bool    mTooSmall;
 		__m128 *mViewPortMatrix; 
 
+		float3 mBBCenterWS;
+		float3 mBBHalfWS;
+		bool    mInsideViewFrustum;
 		float3 mBBCenter;
 		float3 mBBHalf;
 

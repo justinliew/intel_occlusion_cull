@@ -17,12 +17,13 @@
 
 #include "TransformedAABBoxSSE.h"
 
+UINT	TransformedAABBoxSSE::mBBIndexList[AABB_INDICES] = {};
+
 TransformedAABBoxSSE::TransformedAABBoxSSE()
 	: mpCPUTModel(NULL),
 	  mVisible(NULL),
-	  mInsideViewFrustum(true),
 	  mOccludeeSizeThreshold(0.0f),
-	  mTooSmall(false)
+	  mInsideViewFrustum(true),
 {
 	mWorldMatrix = (__m128*)_aligned_malloc(sizeof(float) * 4 * 4, 16);
 	mpBBVertexList = (__m128*)_aligned_malloc(sizeof(float) * 4 * AABB_VERTICES, 16);
@@ -34,46 +35,6 @@ TransformedAABBoxSSE::TransformedAABBoxSSE()
 	mViewPortMatrix[1] = _mm_loadu_ps((float*)&viewportMatrix.r1);
 	mViewPortMatrix[2] = _mm_loadu_ps((float*)&viewportMatrix.r2);
 	mViewPortMatrix[3] = _mm_loadu_ps((float*)&viewportMatrix.r3);
-}
-
-TransformedAABBoxSSE::~TransformedAABBoxSSE()
-{
-	_aligned_free(mWorldMatrix);
-	_aligned_free(mpBBVertexList);
-	_aligned_free(mpXformedPos);
-	_aligned_free(mViewPortMatrix);
-	_aligned_free(mCumulativeMatrix);
-}
-
-//--------------------------------------------------------------------------
-// Get the bounding box center and half vector
-// Create the vertex and index list for the triangles that make up the bounding box
-//--------------------------------------------------------------------------
-void TransformedAABBoxSSE::CreateAABBVertexIndexList(CPUTModelDX11 *pModel)
-{
-	mpCPUTModel = pModel;
-	float* world = (float*)pModel->GetWorldMatrix();
-
-	mWorldMatrix[0] = _mm_loadu_ps(world + 0);
-	mWorldMatrix[1] = _mm_loadu_ps(world + 4);
-	mWorldMatrix[2] = _mm_loadu_ps(world + 8);
-	mWorldMatrix[3] = _mm_loadu_ps(world + 12);
-
-	pModel->GetBoundsObjectSpace(&mBBCenter, &mBBHalf);
-
-	float3 min = mBBCenter - mBBHalf;
-	float3 max = mBBCenter + mBBHalf;
-	
-	//Top 4 vertices in BB
-	mpBBVertexList[0] = _mm_set_ps(1.0f, max.z, max.y, max.x);
-	mpBBVertexList[1] = _mm_set_ps(1.0f, max.z, max.y, min.x); 
-	mpBBVertexList[2] = _mm_set_ps(1.0f, min.z, max.y, min.x);
-	mpBBVertexList[3] = _mm_set_ps(1.0f, min.z, max.y, max.x);
-	// Bottom 4 vertices in BB
-	mpBBVertexList[4] = _mm_set_ps(1.0f, min.z, min.y, max.x);
-	mpBBVertexList[5] = _mm_set_ps(1.0f, max.z, min.y, max.x);
-	mpBBVertexList[6] = _mm_set_ps(1.0f, max.z, min.y, min.x);
-	mpBBVertexList[7] = _mm_set_ps(1.0f, min.z, min.y, min.x);
 
 	// index for top 
 	mBBIndexList[0]  = 1;
@@ -124,14 +85,53 @@ void TransformedAABBoxSSE::CreateAABBVertexIndexList(CPUTModelDX11 *pModel)
 	mBBIndexList[35] = 0;
 }
 
+TransformedAABBoxSSE::~TransformedAABBoxSSE()
+{
+	_aligned_free(mWorldMatrix);
+	_aligned_free(mpBBVertexList);
+	_aligned_free(mpXformedPos);
+	_aligned_free(mViewPortMatrix);
+	_aligned_free(mCumulativeMatrix);
+}
+
+//--------------------------------------------------------------------------
+// Get the bounding box center and half vector
+// Create the vertex and index list for the triangles that make up the bounding box
+//--------------------------------------------------------------------------
+void TransformedAABBoxSSE::CreateAABBVertexIndexList(CPUTModelDX11 *pModel)
+{
+	mpCPUTModel = pModel;
+	pModel->GetBoundsWorldSpace(&mBBCenterWS, &mBBHalfWS);
+
+	float* world = (float*)pModel->GetWorldMatrix();
+
+	mWorldMatrix[0] = _mm_loadu_ps(world + 0);
+	mWorldMatrix[1] = _mm_loadu_ps(world + 4);
+	mWorldMatrix[2] = _mm_loadu_ps(world + 8);
+	mWorldMatrix[3] = _mm_loadu_ps(world + 12);
+
+	pModel->GetBoundsObjectSpace(&mBBCenter, &mBBHalf);
+
+	float3 min = mBBCenter - mBBHalf;
+	float3 max = mBBCenter + mBBHalf;
+	
+	//Top 4 vertices in BB
+	mpBBVertexList[0] = _mm_set_ps(1.0f, max.z, max.y, max.x);
+	mpBBVertexList[1] = _mm_set_ps(1.0f, max.z, max.y, min.x); 
+	mpBBVertexList[2] = _mm_set_ps(1.0f, min.z, max.y, min.x);
+	mpBBVertexList[3] = _mm_set_ps(1.0f, min.z, max.y, max.x);
+	// Bottom 4 vertices in BB
+	mpBBVertexList[4] = _mm_set_ps(1.0f, min.z, min.y, max.x);
+	mpBBVertexList[5] = _mm_set_ps(1.0f, max.z, min.y, max.x);
+	mpBBVertexList[6] = _mm_set_ps(1.0f, max.z, min.y, min.x);
+	mpBBVertexList[7] = _mm_set_ps(1.0f, min.z, min.y, min.x);
+}
+
 //----------------------------------------------------------------
 // Determine is model is inside view frustum
 //----------------------------------------------------------------
 void TransformedAABBoxSSE::IsInsideViewFrustum(CPUTCamera *pCamera)
 {
-	float3 mBBCenterWS;
-	float3 mBBHalfWS;
-	mpCPUTModel->GetBoundsWorldSpace(&mBBCenterWS, &mBBHalfWS);
 	mInsideViewFrustum = pCamera->mFrustum.IsVisible(mBBCenterWS, mBBHalfWS);
 }
 
@@ -143,7 +143,7 @@ bool TransformedAABBoxSSE::IsTooSmall(__m128 *pViewMatrix, __m128 *pProjMatrix, 
 	float radius = mBBHalf.lengthSq(); // Use length-squared to avoid sqrt().  Relative comparissons hold.
 	float fov = pCamera->GetFov();
 	float tanOfHalfFov = tanf(fov * 0.5f);
-	mTooSmall = false;
+	bool TooSmall = false;
 
 	MatrixMultiply(mWorldMatrix, pViewMatrix, mCumulativeMatrix);
 	MatrixMultiply(mCumulativeMatrix, pProjMatrix, mCumulativeMatrix);
@@ -157,13 +157,13 @@ bool TransformedAABBoxSSE::IsTooSmall(__m128 *pViewMatrix, __m128 *pProjMatrix, 
 		float radiusDivW = radius / w;
 		float r2DivW2DivTanFov = radiusDivW / tanOfHalfFov;
 
-		mTooSmall = r2DivW2DivTanFov < (mOccludeeSizeThreshold * mOccludeeSizeThreshold) ?  true : false;
+		TooSmall = r2DivW2DivTanFov < (mOccludeeSizeThreshold * mOccludeeSizeThreshold) ?  true : false;
 	}
 	else
 	{
-		mTooSmall = false;
+		TooSmall = false;
 	}
-	return mTooSmall;
+	return TooSmall;
 }
 
 //----------------------------------------------------------------

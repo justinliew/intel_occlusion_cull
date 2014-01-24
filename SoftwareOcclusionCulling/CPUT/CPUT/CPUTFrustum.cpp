@@ -49,9 +49,6 @@ void CPUTFrustum::InitializeFrustum
     // It also computes the normal of each of the frustum's six planes.
     // ******************************
 
-    mNumFrustumVisibleModels = 0;
-    mNumFrustumCulledModels  = 0;
-
     // We have the camera's up and look, but we also need right.
     float3 right = cross3( up, look );
 
@@ -145,14 +142,12 @@ bool CPUTFrustum::IsVisible(
         }
         if( allEightPointsOutsidePlane )
         {
-            mNumFrustumCulledModels++;
             return false;
         }
     }
 
     // Tested all eight points against all six planes and none of the planes
     // had all eight points outside.
-    mNumFrustumVisibleModels++;
     return true;
 }
 

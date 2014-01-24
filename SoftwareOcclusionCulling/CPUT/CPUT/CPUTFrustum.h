@@ -27,9 +27,6 @@ public:
     float3 mpPosition[8];
     float3 mpNormal[6];
 
-    UINT mNumFrustumVisibleModels;
-    UINT mNumFrustumCulledModels;
-
     CPUTFrustum(){}
     ~CPUTFrustum(){}
 
