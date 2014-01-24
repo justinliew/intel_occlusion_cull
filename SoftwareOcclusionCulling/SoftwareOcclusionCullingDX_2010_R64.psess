@@ -74,6 +74,39 @@
     <Report>
       <Path>SoftwareOcclusionCullingDX_2010_R64131216(1).vspx</Path>
     </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140121.vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140121(2).vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140121(1).vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140121(3).vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140122.vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140122(1).vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140122(2).vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140122(3).vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140123.vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140123(1).vspx</Path>
+    </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140123(2).vspx</Path>
+    </Report>
   </Reports>
   <Launches>
     <ProjBinary>

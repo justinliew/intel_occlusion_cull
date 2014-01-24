@@ -1,56 +1,8 @@
-﻿Build started 11/29/2013 12:09:36 PM.
+﻿Build started 1/23/2014 8:58:37 AM.
      1>Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\CPUT\CPUT-DX11.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /MP /Ox /Oi /GL /D _UNICODE /D UNICODE /GF /Gm- /EHsc /MT /GS- /Gy /fp:precise /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /FR"x64\Release\\" /Gd /TP /errorReport:prompt CPUT\CPUTAssetLibrary.cpp CPUT\CPUTAssetLibraryDX11.cpp CPUT\CPUTAssetSet.cpp CPUT\CPUTAssetSetDX11.cpp CPUT\CPUTBuffer.cpp CPUT\CPUTBufferDX11.cpp CPUT\CPUTButton.cpp CPUT\CPUTCheckbox.cpp CPUT\CPUTComputeShaderDX11.cpp CPUT\CPUTControl.cpp CPUT\CPUTDomainShaderDX11.cpp CPUT\CPUTDropdown.cpp CPUT\CPUTFont.cpp CPUT\CPUTFontDX11.cpp CPUT\CPUTFrustum.cpp CPUT\CPUTGeometryShaderDX11.cpp CPUT\CPUTGuiController.cpp CPUT\CPUTGuiControllerDX11.cpp CPUT\CPUTHullShaderDX11.cpp CPUT\CPUTITTTaskMarker.cpp CPUT\CPUTMaterial.cpp CPUT\CPUTMaterialDX11.cpp CPUT\CPUTMeshDX11.cpp CPUT\CPUTModel.cpp CPUT\CPUTModelDX11.cpp CPUT\CPUTNullNode.cpp CPUT\CPUTConfigBlock.cpp CPUT\CPUTPerfTaskMarker.cpp CPUT\CPUTPixelShaderDX11.cpp CPUT\CPUTPostProcess.cpp CPUT\CPUTRenderNode.cpp CPUT\CPUTRenderStateBlock.cpp CPUT\CPUTRenderStateBlockDX11.cpp CPUT\CPUTOSServicesWin.cpp CPUT\CPUTCamera.cpp CPUT\CPUTLight.cpp CPUT\CPUTRenderTarget.cpp CPUT\CPUTShaderDX11.cpp CPUT\CPUTSlider.cpp CPUT\CPUTSprite.cpp CPUT\CPUTText.cpp CPUT\CPUTTexture.cpp CPUT\CPUTTextureDX11.cpp CPUT\CPUTTimerWin.cpp CPUT\CPUTInputLayoutCacheDX11.cpp CPUT\CPUTMesh.cpp CPUT\CPUTVertexShaderDX11.cpp CPUT\CPUT_DX11.cpp CPUT\CPUTWindowWin.cpp
-         CPUTAssetLibrary.cpp
-         CPUTAssetLibraryDX11.cpp
-         CPUTAssetSet.cpp
-         CPUTAssetSetDX11.cpp
-         CPUTBuffer.cpp
-         CPUTBufferDX11.cpp
-         CPUTButton.cpp
-         CPUTCheckbox.cpp
-         CPUTComputeShaderDX11.cpp
-         CPUTControl.cpp
-         CPUTDomainShaderDX11.cpp
-         CPUTDropdown.cpp
-         CPUTFont.cpp
-         CPUTFontDX11.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /MP /Ox /Oi /GL /D _UNICODE /D UNICODE /GF /Gm- /EHsc /MT /GS- /Gy /fp:precise /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /FR"x64\Release\\" /Gd /TP /errorReport:prompt CPUT\CPUTFrustum.cpp
          CPUTFrustum.cpp
-         CPUTGeometryShaderDX11.cpp
-         CPUTGuiController.cpp
-         CPUTGuiControllerDX11.cpp
-         CPUTHullShaderDX11.cpp
-         CPUTITTTaskMarker.cpp
-         CPUTMaterial.cpp
-         CPUTMaterialDX11.cpp
-         CPUTMeshDX11.cpp
-         CPUTModel.cpp
-         CPUTModelDX11.cpp
-         CPUTNullNode.cpp
-         CPUTConfigBlock.cpp
-         CPUTPerfTaskMarker.cpp
-         CPUTPixelShaderDX11.cpp
-         CPUTPostProcess.cpp
-         CPUTRenderNode.cpp
-         CPUTRenderStateBlock.cpp
-         CPUTRenderStateBlockDX11.cpp
-         CPUTOSServicesWin.cpp
-         CPUTCamera.cpp
-         CPUTLight.cpp
-         CPUTRenderTarget.cpp
-         CPUTShaderDX11.cpp
-         CPUTSlider.cpp
-         CPUTSprite.cpp
-         CPUTText.cpp
-         CPUTTexture.cpp
-         CPUTTextureDX11.cpp
-         CPUTTimerWin.cpp
-         CPUTInputLayoutCacheDX11.cpp
-         CPUTMesh.cpp
-         CPUTVertexShaderDX11.cpp
-         CPUT_DX11.cpp
-         CPUTWindowWin.cpp
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\\lib\CPUT-DX11_64R.lib" /NOLOGO /LTCG x64\Release\CPUTAssetLibrary.obj
          x64\Release\CPUTAssetLibraryDX11.obj
@@ -108,4 +60,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:24.70
+Time Elapsed 00:00:21.03

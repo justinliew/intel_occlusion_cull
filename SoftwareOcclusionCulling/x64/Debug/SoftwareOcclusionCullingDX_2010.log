@@ -1,5 +1,47 @@
-﻿Build started 11/29/2013 3:05:19 PM.
+﻿Build started 1/23/2014 11:23:45 AM.
+     1>Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\\..\SampleComponentsDLL /Zi /nologo /W3 /WX- /MP /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /fp:except- /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /errorReport:prompt AABBoxRasterizerSSE.cpp AABBoxRasterizerSSEMT.cpp AABBoxRasterizerSSEST.cpp SoftwareOcclusionCulling.cpp TransformedAABBoxSSE.cpp main.cpp
+         AABBoxRasterizerSSE.cpp
+         AABBoxRasterizerSSEMT.cpp
+         AABBoxRasterizerSSEST.cpp
+         SoftwareOcclusionCulling.cpp
+         TransformedAABBoxSSE.cpp
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010_D64.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\..\SampleComponents\Middleware\TBB\lib\x64\Debug d3d11.lib d3dcompiler.lib d3dx11.lib d3dx9.lib dxerr.lib dxguid.lib "CPUT-DX11_64D.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib SampleComponents.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Debug\SoftwareOcclusionCullingDX_2010_D64.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010_D64.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010_D64.lib" /MACHINE:X64 x64\Debug\SoftwareOcclusionCullingDX_2010.res
+         x64\Debug\SoftwareOcclusionCullingDX_2010_D64.exe.embed.manifest.res
+         x64\Debug\AABBoxRasterizer.obj
+         x64\Debug\AABBoxRasterizerScalar.obj
+         x64\Debug\AABBoxRasterizerScalarMT.obj
+         x64\Debug\AABBoxRasterizerScalarST.obj
+         x64\Debug\AABBoxRasterizerSSE.obj
+         x64\Debug\AABBoxRasterizerSSEMT.obj
+         x64\Debug\AABBoxRasterizerSSEST.obj
+         x64\Debug\DepthBufferRasterizer.obj
+         x64\Debug\DepthBufferRasterizerScalar.obj
+         x64\Debug\DepthBufferRasterizerScalarMT.obj
+         x64\Debug\DepthBufferRasterizerScalarST.obj
+         x64\Debug\DepthBufferRasterizerSSE.obj
+         x64\Debug\DepthBufferRasterizerSSEMT.obj
+         x64\Debug\DepthBufferRasterizerSSEST.obj
+         x64\Debug\HelperScalar.obj
+         x64\Debug\HelperSSE.obj
+         x64\Debug\main.obj
+         x64\Debug\SoftwareOcclusionCulling.obj
+         x64\Debug\TransformedAABBoxScalar.obj
+         x64\Debug\TransformedAABBoxSSE.obj
+         x64\Debug\TransformedMeshScalar.obj
+         x64\Debug\TransformedMeshSSE.obj
+         x64\Debug\TransformedModelScalar.obj
+         x64\Debug\TransformedModelSSE.obj
+         SoftwareOcclusionCullingDX_2010.vcxproj -> C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010_D64.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"x64\Debug\SoftwareOcclusionCullingDX_2010_D64.exe.embed.manifest" /manifest x64\Debug\SoftwareOcclusionCullingDX_2010_D64.exe.intermediate.manifest
+       LinkEmbedManifest:
+         SoftwareOcclusionCullingDX_2010.vcxproj -> C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010_D64.exe
+     1>Done Building Project "C:\Users\juliew\Documents\GitHub\intel_occlusion_cull\SoftwareOcclusionCulling\SoftwareOcclusionCullingDX_2010.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.00
+Time Elapsed 00:00:04.94
