@@ -23,7 +23,7 @@ TransformedAABBoxSSE::TransformedAABBoxSSE()
 	: mpCPUTModel(NULL),
 	  mVisible(NULL),
 	  mOccludeeSizeThreshold(0.0f),
-	  mInsideViewFrustum(true),
+	  mInsideViewFrustum(true)
 {
 	mWorldMatrix = (__m128*)_aligned_malloc(sizeof(float) * 4 * 4, 16);
 	mpBBVertexList = (__m128*)_aligned_malloc(sizeof(float) * 4 * AABB_VERTICES, 16);
