@@ -107,6 +107,9 @@
     <Report>
       <Path>SoftwareOcclusionCullingDX_2010_R64140123(2).vspx</Path>
     </Report>
+    <Report>
+      <Path>SoftwareOcclusionCullingDX_2010_R64140203.vspx</Path>
+    </Report>
   </Reports>
   <Launches>
     <ProjBinary>
